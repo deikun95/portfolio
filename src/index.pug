@@ -16,11 +16,11 @@ block content
                     a(href="#").menu__link #{item}
           .header__buttons
             ul.socials
-              - var socials = ['insta', 'vk', 'github', 'envelope'];
-              each item in socials
+              - var socials = {insta: "https://www.instagram.com/kndgln_", vk: "https://vk.com/id13365622", github: "https://github.com/deikun95" };
+              each value, key in socials
                 li.socials__item
-                  a(href=`${item === 'envelope' ? 'mailto:sabantsev@yandex.ru' : '#'}`).socials__link
-                    +icon(item, 'socials__icon')
+                  a(href=value).socials__link
+                    +icon(key, 'socials__icon')
 
         .hero__content
           .userinfo
@@ -28,10 +28,11 @@ block content
             .userinfo__name Кендигелян Олег
         .hero__downbutton
           .scroll-down
-            a(href="").scroll-down__btn Скролл
-            
+            a(href="#skills").scroll-down__btn Скролл
+
     section.about
       .container
+        a(id="skills")
         .about__columns
           .about__user
             .user
@@ -148,7 +149,6 @@ block content
                     .user-min
                       .user-min__avatar
                         .user-min__pic-wrapper
-                          +image('content/user.jpg', 'user-min__avatar-pic')
                       .user-min__info
                         .user-min__name Ковальчук Дмитрий
                         .user-min__occ Основатель Loftschool
@@ -175,7 +175,7 @@ block content
                 each item in socials
                   li.socials__item
                     a(href="#").socials__link
-                      +icon(item, 'socials__icon')
+                      //- +icon(item, 'socials__icon')
           .footer__data-col
             .text-quote
               .text-quote__text
