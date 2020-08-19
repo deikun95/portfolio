@@ -1,0 +1,26 @@
+[
+    {
+        "id": 1,
+        "title":"1 Сайт школы образования",
+        "skills":"1 Html, Css, Js",
+        "photo":"slider-1.jpg",
+        "link":"//google.com",
+        "desc":"1 Описание"
+    },
+    {
+        "id": 2,
+        "title":"2 Сайт школы образования",
+        "skills":"2 Html, Css, Js",
+        "photo":"slider-2.jpg",
+        "link":"//google.com",
+        "desc":"2 Описание"
+    },
+    {
+        "id": 3,
+        "title":"3 Сайт школы образования",
+        "skills":"3 Html, Css, Js",
+        "photo":"slider-3.jpg",
+        "link":"//google.com",
+        "desc":"3 Описание"
+    }
+]
