@@ -3,6 +3,24 @@ extends ./main.layout.pug
 block content
   .welcome-section
     section.fullscreen-section.hero
+      .header__burger
+          a(href="#").burger__btn
+            span.btn__line
+          .burger__menu
+            .burger__close
+              a.burger__btn--active(href="#")
+                span.btn__line--active
+            ul.burger__list
+              - var burgerLinks = { "Обо мне": "#about", "Навыки": "#skills", "Работы": "#portfolio", "Отзывы": "#feedback"};
+              each value, key in burgerLinks 
+                li.burger__item
+                  a(href=value).burger__link #{key}
+            ul.socials
+              - var socials = {insta: "https://www.instagram.com/kndgln_", vk: "https://vk.com/id13365622", github: "https://github.com/deikun95" };
+              each value, key in socials
+                li.socials__item
+                  a(href=value).socials__link
+                    +icon(key, 'socials__icon')
       .container.hero__container
         header.header
           .header__logo
@@ -21,6 +39,7 @@ block content
                 li.socials__item
                   a(href=value).socials__link
                     +icon(key, 'socials__icon')
+      
 
         .hero__content
           .userinfo
