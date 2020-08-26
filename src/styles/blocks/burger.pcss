@@ -10,18 +10,19 @@
 
   .burger {
     &__menu {
-      display: none;
-    }
-    &__menu--active {
-      padding-left: 51px;
+      transition: all ease 0.3s;
       display: flex;
+      padding-left: 51px;
       flex-direction: column;
       width: 350px;
       position: absolute;
       top: 0;
-      right: 0;
+      right: -350px;
       background-color: white;
       height: 100vh;
+    }
+    &__menu--active {
+      right: 0;
     }
     &__close {
       height: 148px;
@@ -50,32 +51,12 @@
       display: block;
       width: 50px;
       height: 50px;
+      z-index: 10000;
     }
   }
   .btn__line {
-    &--active {
-      &::before,
-      &::after {
-        content: "";
-        height: 3px;
-        width: 50px;
-        position: absolute;
-        background-color: #222;
-        display: block;
-        transition: 0.5s;
-      }
-      height: 0;
-      width: 50px;
-      position: absolute;
-      top: 50%;
-      background-color: #222;
-      &::before {
-        transform: rotate(-45deg);
-      }
-      &::after {
-        transform: rotate(45deg);
-      }
-    }
+    transition: all ease 0.2s;
+    z-index: 9999;
     &::before,
     &::after {
       content: "";
@@ -85,6 +66,7 @@
       background-color: #222;
       display: block;
       transition: 0.5s;
+      z-index: 9999
     }
     height: 3px;
     width: 50px;
@@ -96,6 +78,31 @@
     }
     &::after {
       transform: translateY(15px);
+    }
+  }
+  .active {
+    transition: all ease-in 0.2s;
+
+    &::before,
+    &::after {
+      content: "";
+      height: 3px;
+      width: 50px;
+      position: absolute;
+      background-color: #414c63;
+      display: block;
+      transition: 0.5s;
+    }
+    height: 3px;
+    width: 0;
+    position: absolute;
+    top: 50%;
+    background-color: #414c63;
+    &::before {
+      transform: rotate(-45deg);
+    }
+    &::after {
+      transform: rotate(45deg);
     }
   }
 }

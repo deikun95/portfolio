@@ -8,8 +8,8 @@ block content
             span.btn__line
           .burger__menu
             .burger__close
-              a.burger__btn--active(href="#")
-                span.btn__line--active
+              //- a.burger__btn(href="#")
+              //-   span.btn__line
             ul.burger__list
               - var burgerLinks = { "Обо мне": "#about", "Навыки": "#skills", "Работы": "#portfolio", "Отзывы": "#feedback"};
               each value, key in burgerLinks 
@@ -19,7 +19,7 @@ block content
               - var socials = {insta: "https://www.instagram.com/kndgln_", vk: "https://vk.com/id13365622", github: "https://github.com/deikun95" };
               each value, key in socials
                 li.socials__item
-                  a(href=value).socials__link
+                  a(href=value target="_blank").socials__link
                     +icon(key, 'socials__icon')
       .container.hero__container
         header.header
