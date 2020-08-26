@@ -2,8 +2,10 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+
   @include tablets {
-    align-items: flex-start;
+    /* align-items: flex-start; */
+    width: 61%;
   }
 }
 .header__menu {
@@ -14,12 +16,15 @@
   }
 }
 .header__buttons {
-  @include tablets {
-    display: none;
-  }
+  display: block;
+  transition: all ease 0.5s;
+
   @include phones {
     display: none;
   }
+}
+.active-menu {
+  display: none;
 }
 @media all (max-width: 768px) {
   #menu__toggle {
