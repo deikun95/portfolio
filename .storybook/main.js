@@ -1,4 +1,4 @@
-const custom = require("../webpack.config.js")(null, "development");
+const custom = require("../webpack.config")(null, "development");
 const path = require("path");
 
 module.exports = {
