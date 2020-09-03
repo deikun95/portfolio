@@ -56,6 +56,7 @@ export default {
   display: flex;
   align-items: center;
   position: relative;
+  margin-bottom: 30px;
 }
 .skill-component .buttons {
   position: absolute;
