@@ -12,7 +12,7 @@
         </div>
         <ul class="skills">
           <li class="item item-card">
-            <category class="item-category" />
+            <category class="item-category" empty/>
           </li>
           <li class="item item-card">
             <category class="item-category" />

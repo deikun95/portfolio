@@ -1,14 +1,19 @@
 <template>
   <card class="card-component" slim>
-    <editLine slot="title" class="header-line" v-model="title" editModeByDefault />
+    <editLine
+      slot="title"
+      class="header-line"
+      v-model="title"
+      :editModeByDefault="empty"
+    />
     <template slot="content">
-      <ul class="skills" slot="content">
+      <ul class="skills" slot="content" v-if="empty === false">
         <li class="item" v-for="skill in skills" :key="skill.id">
           <skill :skill="skill" />
         </li>
       </ul>
       <div class="bottom-line">
-        <skill-add-line />
+        <skill-add-line :blocked="empty" />
       </div>
     </template>
   </card>
@@ -44,6 +49,9 @@ export default {
     skill,
     skillAddLine,
   },
+  props: {
+    empty: Boolean,
+  },
   data() {
     return {
       title: "Name",
@@ -61,7 +69,7 @@ export default {
   display: flex;
   font-direction: column;
 }
-.header-line{
+.header-line {
   width: 100% !important;
 }
 </style>
