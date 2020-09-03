@@ -3,13 +3,18 @@
     <editLine
       slot="title"
       class="header-line"
-      v-model="title"
+      v-model="categoryTitle"
       :editModeByDefault="empty"
+      @remove="$emit('remove', $event)"
     />
     <template slot="content">
       <ul class="skills" slot="content" v-if="empty === false">
         <li class="item" v-for="skill in skills" :key="skill.id">
-          <skill :skill="skill" />
+          <skill
+            :skill="skill"
+            @remove="$emit('remove-skill', $event)"
+            @approve="$emit('edit-skill', $event)"
+          />
         </li>
       </ul>
       <div class="bottom-line">
@@ -25,23 +30,6 @@ import editLine from "../editLine";
 import skill from "../skill";
 import skillAddLine from "../skillAddLine";
 
-const skills = [
-  {
-    id: 0,
-    title: "Html",
-    percent: 80,
-  },
-  {
-    id: 0,
-    title: "Html",
-    percent: 80,
-  },
-  {
-    id: 0,
-    title: "Html",
-    percent: 80,
-  },
-];
 export default {
   components: {
     card,
@@ -51,11 +39,18 @@ export default {
   },
   props: {
     empty: Boolean,
+    title: {
+      type: String,
+      default: "",
+    },
+    skills: {
+      type: Array,
+      default: () => [],
+    },
   },
   data() {
     return {
-      title: "Name",
-      skills,
+      categoryTitle: this.title,
     };
   },
 };
@@ -67,9 +62,12 @@ export default {
 }
 .content {
   display: flex;
-  font-direction: column;
+  flex-direction: column;
 }
 .header-line {
   width: 100% !important;
+}
+.bottom-line {
+  /* padding-top: 163px */
 }
 </style>

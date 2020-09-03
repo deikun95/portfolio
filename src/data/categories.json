@@ -1,0 +1,65 @@
+[
+  {
+    "id": 1,
+    "category": "Frontend",
+    "skills": [
+      {
+        "id": 0,
+        "title": "Html",
+        "percent": 97
+      },
+      {
+        "id": 1,
+        "title": "Css",
+        "percent": 98
+      },
+      {
+        "id": 2,
+        "title": "JS",
+        "percent": 99
+      }
+    ]
+  },
+  {
+    "id": 2,
+    "category": "Backend",
+    "skills": [
+      {
+        "id": 0,
+        "title": "Node.js",
+        "percent": 97
+      },
+      {
+        "id": 1,
+        "title": "Express.js",
+        "percent": 98
+      },
+      {
+        "id": 2,
+        "title": "Nuxt.js",
+        "percent": 99
+      }
+    ]
+  },
+  {
+    "id": 3,
+    "category": "WorkFlow",
+    "skills": [
+      {
+        "id": 0,
+        "title": "Git",
+        "percent": 97
+      },
+      {
+        "id": 1,
+        "title": "IDE",
+        "percent": 98
+      },
+      {
+        "id": 2,
+        "title": "Slack",
+        "percent": 99
+      }
+    ]
+  }
+]
