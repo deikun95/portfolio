@@ -5,18 +5,18 @@ Vue.use(VueRouter);
 
 const routes = [
   {
-    path: "/about",
-    name: "About",
+    path: "/",
+    name: "about",
     component: () => import("./components/pages/About"),
   },
   {
     path: "/reviews",
-    name: "Reviews",
+    name: "reviews",
     component: () => import("./components/pages/Reviews"),
   },
   {
     path: "/works",
-    name: "Works",
+    name: "works",
     component: () => import("./components/pages/Works"),
   },
 ];
@@ -25,7 +25,7 @@ const router = new VueRouter({
   scrollBehavior() {
     return { x: 0, y: 0 };
   },
-  mode: "history",
+  // mode: "history",
   routes,
 });
 

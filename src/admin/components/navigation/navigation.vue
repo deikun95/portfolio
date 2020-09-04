@@ -2,8 +2,14 @@
   <nav class="navigation-component">
     <div class="container">
       <ul class="list">
-        <li v-for="link in links" :key="link.id" :class="['item', {active: link.active }]">
-          <router-link :to="`/${link.alias}`" class="link">{{link.title}}</router-link>
+        <li
+          v-for="link in links"
+          :key="link.id"
+          :class="['nav-item', { active: link.active }]"
+        >
+          <router-link :to="`/${link.alias}`" class="link">{{
+            link.title
+          }}</router-link>
         </li>
       </ul>
     </div>
@@ -15,7 +21,7 @@ const links = [
   {
     id: 0,
     title: "Обо мне",
-    alias: "about",
+    alias: "",
     active: false,
   },
   {
@@ -50,6 +56,8 @@ export default {
   font-weight: 600;
   display: block;
   text-decoration: none;
+  position: relative;
+
   &:hover {
     color: #383bcf;
     position: relative;
@@ -62,6 +70,11 @@ export default {
       height: 3px;
       background: #383bcf;
     }
+  }
+}
+.active {
+  .link {
+    /* border-bottom: 3px solid #383bcf; */
   }
 }
 </style>
