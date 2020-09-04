@@ -2,14 +2,12 @@
   <nav class="navigation-component">
     <div class="container">
       <ul class="list">
-        <li
-          v-for="link in links"
-          :key="link.id"
-          :class="['nav-item', { active: link.active }]"
-        >
-          <router-link :to="`/${link.alias}`" class="link">{{
-            link.title
-          }}</router-link>
+        <li v-for="link in links" :key="link.id" :class="nav - item">
+          <router-link
+            :to="`/${link.alias}`"
+            :class="['link', { active: link.active }]"
+            >{{ link.title }}</router-link
+          >
         </li>
       </ul>
     </div>
@@ -72,9 +70,22 @@ export default {
     }
   }
 }
-.active {
-  .link {
-    /* border-bottom: 3px solid #383bcf; */
+.link.active {
+  padding: 30px;
+  font-size: 16px;
+  font-weight: 600;
+  display: block;
+  text-decoration: none;
+  position: relative;
+
+  &:after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: #383bcf;
   }
 }
 </style>
