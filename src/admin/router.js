@@ -8,16 +8,19 @@ const routes = [
     path: "/",
     name: "about",
     component: () => import("./components/pages/About"),
+    props: true,
   },
   {
     path: "/reviews",
     name: "reviews",
     component: () => import("./components/pages/Reviews"),
+    props: true,
   },
   {
     path: "/works",
     name: "works",
     component: () => import("./components/pages/Works"),
+    props: true,
   },
 ];
 
