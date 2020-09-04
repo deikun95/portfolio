@@ -3,7 +3,7 @@
     <div class="container">
       <ul class="list">
         <li v-for="link in links" :key="link.id" :class="['item', {active: link.active }]">
-          <a href="`/${link.alias}`" class="link">{{link.title}}</a>
+          <router-link :to="`/${link.alias}`" class="link">{{link.title}}</router-link>
         </li>
       </ul>
     </div>

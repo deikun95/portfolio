@@ -6,23 +6,7 @@
     <navigation />
     <div class="page-content">
       <div class="container">
-        <div class="header">
-          <div class="title">Блок "Обо мне"</div>
-          <iconed-button
-            v-if="!isShown"
-            @click="isShown=true"
-            type="iconed"
-            title="Добавить группу"
-          />
-        </div>
-        <ul class="skills">
-          <li class="item item-card" v-if="isShown">
-            <category @remove="isShown = false" empty />
-          </li>
-          <li class="item item-card" v-for="category in categories" :key="category.id">
-            <category class="item-category" :title="category.category" :skills="category.skills" />
-          </li>
-        </ul>
+        <router-view></router-view>
       </div>
     </div>
   </div>
