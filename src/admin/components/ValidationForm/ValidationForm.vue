@@ -20,8 +20,8 @@
             <tagsAdder v-model="tags" />
           </div>
           <div class="form__buttons">
-            <appButton plain />
-            <appButton title="Сохранить" />
+            <!-- <appButton plain /> -->
+            <appButton title="Сохранить" @click="saveForm(formData)" />
           </div>
         </div>
       </div>
@@ -41,6 +41,15 @@ export default {
     appInput,
     tagsAdder,
     appButton,
+  },
+  props: {},
+  data() {
+    return {};
+  },
+  methods: {
+    saveForm(formData) {
+      this.$emit("save-form", formData);
+    },
   },
 };
 </script>

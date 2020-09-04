@@ -1,7 +1,7 @@
 <template>
   <div class="works-content">
     <div class="card add-card">
-      <square-btn type="square" title="Добавить работу" />
+      <square-btn type="square" title="Добавить работу" @click="addForm"/>
     </div>
     <div class="card">
       <div class="card__header">
@@ -48,6 +48,11 @@ export default {
     icon,
     squareBtn,
   },
+  methods: {
+    addForm(){
+      this.$emit("add-form")
+    }
+  }
 };
 </script>
 

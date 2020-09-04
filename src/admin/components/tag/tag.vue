@@ -29,13 +29,14 @@ export default {
   white-space: nowrap;
   padding: 6px 30px 6px 20px;
   border-radius: 50px;
-  background: #fff;
-  color: rgba(40, 51, 64, 0.5);
+  background: rgb(195, 205, 212);
+  color: rgb(40, 51, 64);
   margin-right: 8px;
   margin-bottom: 8px;
   font-size: 13px;
   position: relative;
   &-btn {
+    outline: none;
     position: absolute;
     right: 3px;
     top: 3px;

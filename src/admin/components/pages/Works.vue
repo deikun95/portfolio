@@ -3,11 +3,11 @@
     <div class="header">
       <div class="title">Блок "Работы"</div>
     </div>
-    <div class="form-component">
-      <ValidationForm />
+    <div class="form-component" v-if="formActive">
+      <ValidationForm @save-form="saveForm" />
     </div>
     <div class="cards-component">
-      <WorkCard />
+      <WorkCard @add-form="addForm" />
     </div>
   </div>
 </template>
@@ -17,9 +17,22 @@ import WorkCard from "../WorkCard/WorkCard";
 import ValidationForm from "../ValidationForm/ValidationForm";
 
 export default {
+  data() {
+    return {
+      formActive: false,
+    };
+  },
   components: {
     WorkCard,
-    ValidationForm
+    ValidationForm,
+  },
+  methods: {
+    addForm() {
+      this.formActive = true;
+    },
+    saveForm($event) {
+      this.formActive = false;
+    },
   },
 };
 </script>
@@ -36,7 +49,7 @@ export default {
   display: flex;
   flex-wrap: wrap;
 }
-.form-component{
+.form-component {
   margin-bottom: 28px;
 }
 </style>
