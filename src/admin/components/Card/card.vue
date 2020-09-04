@@ -36,7 +36,8 @@ export default {
   /* height: 100%; */
   display: flex;
   flex-direction: column;
-  width: 100% &.card_plain {
+  width: 70%;
+  &.card_plain {
     padding: 0;
   }
 }

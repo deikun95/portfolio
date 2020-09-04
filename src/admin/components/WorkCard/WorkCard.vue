@@ -41,7 +41,6 @@
 import tag from "../tag";
 import icon from "../icon";
 import squareBtn from "../button";
-
 export default {
   name: "WorkCard",
   components: {
