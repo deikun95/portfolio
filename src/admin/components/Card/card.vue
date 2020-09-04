@@ -27,15 +27,16 @@ export default {
 
 <style lang="postcss" scoped>
 .card-component {
+  overflow: hidden;
+  border-radius: 5px;
+  perspective: 1px;
   background: #fff;
   box-shadow: 4.1px 2.9px 20px 0 rgba(0, 0, 0, 0.07);
   padding: 0 20px 30px;
   /* height: 100%; */
   display: flex;
   flex-direction: column;
-  width: 100%
-
-  &.card_plain {
+  width: 100% &.card_plain {
     padding: 0;
   }
 }
@@ -47,7 +48,7 @@ export default {
   font-weight: 600;
   margin-bottom: 30px;
   width: 100%;
-  &__title{
+  &__title {
     width: 100%;
   }
 }

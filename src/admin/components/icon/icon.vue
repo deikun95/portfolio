@@ -34,14 +34,15 @@ export default {
 
 <style lang="postcss" scoped>
 .icon-component {
+  outline: none;
   display: inline-flex;
   align-items: center;
   padding: 0;
   outline: none;
 
-  &:focus {
+  /* &:focus {
     outline: 1px dotted grey;
-  }
+  } */
 
   &.no-words {
     &:after {

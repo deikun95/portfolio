@@ -1,6 +1,6 @@
 <template>
   <div class="user-component">
-    <avatar size="2.7" src="https://picsum.photos/300/300" />
+    <avatar size="2.7" src="src\images\content\user.jpg" />
     <div class="username">Олег Кендигелян</div>
   </div>
 </template>
