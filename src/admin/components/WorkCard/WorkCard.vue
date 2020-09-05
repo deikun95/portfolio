@@ -7,25 +7,23 @@
       <div class="card__header">
         <div class="card__img"></div>
         <div class="card__tags">
-          <tag title="Tag1" />
-          <tag title="Tag2" />
-          <tag title="Tag3" />
+          <tag :title="tag" v-for="tag in card.tags" :key="tag.id" />
         </div>
       </div>
       <div class="card__body">
         <div class="card__description">
           <div class="card__title">
-            <span>Сайт школы образования</span>
+            <span>{{card.title}}</span>
           </div>
           <div class="card__main">
-            <p>Этот парень проходил обучение веб-разработке не где-то, а в LoftSchool! 4,5 месяца только самых тяжелых испытаний и бессонных ночей!</p>
+            <p>{{card.description}}</p>
           </div>
           <div class="card__link">
-            <a href="#" class="link-value">http://loftschool.ru</a>
+            <a href="#" class="link-value">{{card.link}}</a>
           </div>
           <div class="card__buttons">
             <icon symbol="pencil" class="btn" title="Править" />
-            <icon symbol="cross" class="btn" title="Удалить" />
+            <icon symbol="cross" class="btn" title="Удалить" @click="deleteCard(card)" />
           </div>
         </div>
       </div>
@@ -37,7 +35,7 @@
 import tag from "../tag";
 import icon from "../icon";
 import squareBtn from "../button";
-import { mapGetters } from "vuex";
+import { mapActions, mapGetters } from "vuex";
 export default {
   name: "WorkCard",
   components: {
@@ -46,6 +44,10 @@ export default {
     squareBtn,
   },
   methods: {
+    ...mapActions("work", ["deleteWorkCard"]),
+    deleteCard(card) {
+      this.deleteWorkCard(card.id);
+    },
     addForm() {
       this.$emit("add-form");
     },

@@ -8,20 +8,20 @@
         </div>
         <div class="form__main">
           <div class="form__title form__row">
-            <app-input title="Название" />
+            <app-input v-model="formData.title" title="Название" />
           </div>
           <div class="form__link form__row">
-            <app-input title="Ссылка на сайт" />
+            <app-input v-model="formData.link" title="Ссылка на сайт" />
           </div>
           <div class="form__description form__row">
-            <app-input title="Описание" fieldType="textarea" />
+            <app-input v-model="formData.description" title="Описание" fieldType="textarea" />
           </div>
           <div class="form__tags form__row">
-            <tagsAdder v-model="tags" />
+            <tagsAdder v-model="formData.tags" />
           </div>
           <div class="form__buttons">
             <appButton plain title="Отправить" />
-            <appButton title="Сохранить" @click="saveForm(formData)" />
+            <appButton title="Сохранить" @click="saveForm" />
           </div>
         </div>
       </div>
@@ -34,6 +34,8 @@ import card from "../card";
 import appInput from "../input";
 import appButton from "../button";
 import tagsAdder from "../tagsAdder/tagsAdder";
+import { mapActions, mapGetters } from "vuex";
+
 export default {
   name: "WorkValidationForm",
   components: {
@@ -44,12 +46,31 @@ export default {
   },
   props: {},
   data() {
-    return {};
+    return {
+      formData: {
+        title: "",
+        link: "",
+        description: "",
+        tags: ""
+      },
+    };
   },
   methods: {
-    saveForm(formData) {
-      this.$emit("save-form", formData);
+    ...mapActions("work", ["addWorkCard"]),
+    saveForm() {
+      const tags = this.formData.tags.trim().split(",")
+      console.log(tags)
+      const newCard = {
+        ...this.formData,
+        tags,
+        id: Date.now()
+      }
+      this.addWorkCard(newCard)
+      // this.$emit("save-form");
     },
+  },
+  computed: {
+    ...mapGetters("work", ["getWorkCards"]),
   },
 };
 </script>
