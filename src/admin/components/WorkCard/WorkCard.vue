@@ -1,7 +1,7 @@
 <template>
   <div class="works-content">
     <div class="card add-card">
-      <square-btn type="square" title="Добавить работу" @click="addForm"/>
+      <square-btn type="square" title="Добавить работу" @click="addForm" />
     </div>
     <div class="card">
       <div class="card__header">
@@ -31,9 +31,61 @@
       </div>
     </div>
 
-    <div class="card"></div>
+    <div class="card">
+      <div class="card__header">
+        <div class="card__img"></div>
+        <div class="card__tags">
+          <tag title="Tag1" />
+          <tag title="Tag2" />
+          <tag title="Tag3" />
+        </div>
+      </div>
+      <div class="card__body">
+        <div class="card__description">
+          <div class="card__title">
+            <span>Сайт школы образования</span>
+          </div>
+          <div class="card__main">
+            <p>Этот парень проходил обучение веб-разработке не где-то, а в LoftSchool! 4,5 месяца только самых тяжелых испытаний и бессонных ночей!</p>
+          </div>
+          <div class="card__link">
+            <a href="#" class="link-value">http://loftschool.ru</a>
+          </div>
+          <div class="card__buttons">
+            <icon symbol="pencil" class="btn" title="Править" />
+            <icon symbol="cross" class="btn" title="Удалить" />
+          </div>
+        </div>
+      </div>
+    </div>
 
-    <div class="card"></div>
+    <div class="card">
+      <div class="card__header">
+        <div class="card__img"></div>
+        <div class="card__tags">
+          <tag title="Tag1" />
+          <tag title="Tag2" />
+          <tag title="Tag3" />
+        </div>
+      </div>
+      <div class="card__body">
+        <div class="card__description">
+          <div class="card__title">
+            <span>Сайт школы образования</span>
+          </div>
+          <div class="card__main">
+            <p>Этот парень проходил обучение веб-разработке не где-то, а в LoftSchool! 4,5 месяца только самых тяжелых испытаний и бессонных ночей!</p>
+          </div>
+          <div class="card__link">
+            <a href="#" class="link-value">http://loftschool.ru</a>
+          </div>
+          <div class="card__buttons">
+            <icon symbol="pencil" class="btn" title="Править" />
+            <icon symbol="cross" class="btn" title="Удалить" />
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -49,10 +101,10 @@ export default {
     squareBtn,
   },
   methods: {
-    addForm(){
-      this.$emit("add-form")
-    }
-  }
+    addForm() {
+      this.$emit("add-form");
+    },
+  },
 };
 </script>
 

@@ -51,7 +51,7 @@ disabledView.story = {
 export const fileView = () => ({
   components: { appButton },
   template: `
-    <appButton typeAttr="file" @change="onChange" />
+    <appButton plain typeAttr="file" @change="onChange" />
   `,
   methods
 });

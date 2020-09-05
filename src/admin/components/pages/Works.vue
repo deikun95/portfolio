@@ -4,7 +4,7 @@
       <div class="title">Блок "Работы"</div>
     </div>
     <div class="form-component" v-if="formActive">
-      <ValidationForm @save-form="saveForm" />
+      <WorkValidationForm @save-form="saveForm" />
     </div>
     <div class="cards-component">
       <WorkCard @add-form="addForm" />
@@ -14,7 +14,7 @@
 
 <script>
 import WorkCard from "../WorkCard/WorkCard";
-import ValidationForm from "../ValidationForm/ValidationForm";
+import WorkValidationForm from "../WorkValidationForm/WorkValidationForm";
 
 export default {
   data() {
@@ -24,7 +24,7 @@ export default {
   },
   components: {
     WorkCard,
-    ValidationForm,
+    WorkValidationForm,
   },
   methods: {
     addForm() {
