@@ -69,6 +69,7 @@
     "signale": "^1.4.0",
     "vue": "^2.6.7",
     "vue-flickity": "^1.2.1",
-    "vue-router": "^3.4.3"
+    "vue-router": "^3.4.3",
+    "vuex": "^3.5.1"
   }
 }

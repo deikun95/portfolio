@@ -13,6 +13,7 @@
 </template>
 
 <script>
+import {mapGetters} from 'vuex'
 import WorkCard from "../WorkCard/WorkCard";
 import WorkValidationForm from "../WorkValidationForm/WorkValidationForm";
 
