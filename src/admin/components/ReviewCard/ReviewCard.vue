@@ -3,24 +3,24 @@
     <div class="card add-card">
       <square-btn type="square" title="Добавить отзыв" @click="addForm" />
     </div>
-    <card class="card" v-for="card in cards" :key="card.id">
+    <card class="card" v-for="card in getReviewCards" :key="card.id">
       <div slot="title" class="card__header">
         <div class="avatar">
           <avatar size="3.4" src="src\images\content\user.jpg" />
         </div>
         <div class="user">
-          <span class="user-name">Владимир Сабанцев</span>
-          <span class="user-pos">Преподаватель</span>
+          <span class="user-name">{{card.title}}</span>
+          <span class="user-pos">{{card.pos}}</span>
         </div>
       </div>
       <div class="card__body" slot="content">
         <div class="card__description">
           <div class="card__main">
-            <p>Этот парень проходил обучение веб-разработке не где-то, а в LoftSchool! 4,5 месяца только самых тяжелых испытаний и бессонных ночей!</p>
+            <p>{{card.description}}</p>
           </div>
           <div class="card__buttons">
-            <icon symbol="pencil" class="btn" title="Править" />
-            <icon symbol="cross" class="btn" title="Удалить" />
+            <icon symbol="pencil" class="btn" title="Править" @click="editCard(card)" />
+            <icon symbol="cross" class="btn" title="Удалить" @click="deleteCard(card)" />
           </div>
         </div>
       </div>
@@ -32,8 +32,9 @@
 import tag from "../tag";
 import icon from "../icon";
 import squareBtn from "../button";
-import card from "../card";
+import card from "../Card";
 import avatar from "../avatar";
+import { mapActions, mapGetters } from "vuex";
 
 export default {
   name: "ReviewCard",
@@ -44,21 +45,23 @@ export default {
     card,
     avatar,
   },
-  data(){
-    return{
-      cards: [
-        {id:0},
-        {id:1},
-        {id:2},
-        {id:3},
-        {id:4},
-      ]
-    }
-  },
   methods: {
+    ...mapActions("review", ["deleteReviewCard"]),
+    deleteCard(card) {
+      this.deleteReviewCard(card.id);
+    },
     addForm() {
       this.$emit("add-form");
     },
+    editCard(card) {
+      const editingCard = {
+        ...card,
+      };
+      this.$emit("edit-card", editingCard);
+    },
+  },
+  computed: {
+    ...mapGetters("review", ["getReviewCards"]),
   },
 };
 </script>

@@ -4,7 +4,7 @@
   </div>
   <div class="card-component" v-else>
     <div class="header">
-      <div class="text" v-text="title"></div>
+      <!-- <div class="text" v-text="title"></div> -->
       <slot name="title" v-if="!!title === false"></slot>
     </div>
     <div class="content">

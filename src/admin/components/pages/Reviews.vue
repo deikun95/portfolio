@@ -4,27 +4,29 @@
       <div class="title">Блок "Отзывы"</div>
     </div>
     <div class="form-component" v-if="formActive">
-      <ReviewValidationForm @save-form="saveForm" />
+      <ReviewValidationForm @save-form="saveForm" :card-data="cardData"/>
     </div>
     <div class="cards-component">
-      <ReviewCard @add-form="addForm"/>
+      <ReviewCard @add-form="addForm" @edit-card="editCard"/>
     </div>
   </div>
 </template>
 
 <script>
+import lodash from "lodash";
 import ReviewCard from "../ReviewCard/ReviewCard";
 import ReviewValidationForm from "../ReviewValidationForm/ReviewValidationForm";
 
 export default {
-  components: {
-    ReviewCard,
-    ReviewValidationForm,
-  },
   data() {
     return {
       formActive: false,
+      cardData: {},
     };
+  },
+  components: {
+    ReviewCard,
+    ReviewValidationForm,
   },
   methods: {
     addForm() {
@@ -32,8 +34,13 @@ export default {
     },
     saveForm($event) {
       this.formActive = false;
+      this.cardData = {};
     },
-  }
+    editCard($event) {
+      this.formActive = true;
+      this.cardData = $event;
+    },
+  },
 };
 </script>
 

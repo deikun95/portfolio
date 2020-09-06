@@ -10,17 +10,17 @@
         </div>
         <div class="form__main">
           <div class="form__title form__row">
-            <app-input title="Имя автора" />
+            <app-input v-model="formData.title" title="Имя автора" />
           </div>
           <div class="form__link form__row">
-            <app-input title="Титуал автора" />
+            <app-input v-model="formData.pos" title="Титуал автора" />
           </div>
           <div class="form__description form__row">
-            <app-input title="Отзыв" fieldType="textarea" />
+            <app-input v-model="formData.description" title="Отзыв" fieldType="textarea" />
           </div>
           <div class="form__buttons">
             <appButton plain title="Отправить" />
-            <appButton title="Сохранить" @click="saveForm(formData)" />
+            <appButton title="Сохранить" @click="saveForm" />
           </div>
         </div>
       </div>
@@ -29,26 +29,66 @@
 </template>
 
 <script>
-import card from "../card";
+import card from "../Card";
 import appInput from "../input";
 import appButton from "../button";
 import avatar from "../avatar/avatar";
+import { mapActions, mapGetters } from "vuex";
 
 export default {
-  name: "WorkValidationForm",
+  name: "reviewValidationForm",
   components: {
     card,
     appInput,
     appButton,
     avatar,
   },
-  props: {},
+   props: {
+    cardData: {
+      type: Object,
+      default: () => ({}),
+    },
+  },
   data() {
-    return {};
+    return {
+      formData: {
+        title: "",
+        pos: "",
+        description: "",
+      },
+    };
   },
   methods: {
-    saveForm(formData) {
-      this.$emit("save-form", formData);
+    ...mapActions("review", ["addReviewCard"]),
+    saveForm() {
+      if (!this.cardData.id) {
+        const newCard = {
+          ...this.formData,
+          id: Date.now(),
+        };
+        this.addReviewCard(newCard);
+      } else {
+        const newCard = {
+          ...this.formData,
+          id: this.cardData.id,
+        };
+
+        this.addReviewCard(newCard);
+      }
+      this.$emit("save-form");
+    },
+  },
+  computed: {
+    ...mapGetters("review", ["getReviewCards"]),
+  },
+  mounted() {
+    if (!_.isEmpty(this.cardData)) {
+      this.formData = this.cardData;
+    }
+  },
+  watch: {
+    "cardData.id": function (val) {
+      this.formData.id = this.cardData.id;
     },
   },
 };
