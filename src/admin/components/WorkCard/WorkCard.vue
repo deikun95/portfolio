@@ -21,10 +21,10 @@
           <div class="card__link">
             <a href="#" class="link-value">{{card.link}}</a>
           </div>
-          <div class="card__buttons">
-            <icon symbol="pencil" class="btn" title="Править" />
-            <icon symbol="cross" class="btn" title="Удалить" @click="deleteCard(card)" />
-          </div>
+        </div>
+        <div class="card__buttons">
+          <icon symbol="pencil" class="btn" title="Править" @click="editCard(card)" />
+          <icon symbol="cross" class="btn" title="Удалить" @click="deleteCard(card)" />
         </div>
       </div>
     </div>
@@ -51,6 +51,15 @@ export default {
     addForm() {
       this.$emit("add-form");
     },
+    editCard(card) {
+      const tags = card.tags.join(", ");
+      const editingCard = {
+        ...card,
+        tags,
+      };
+      this.$emit("edit-card", editingCard)
+      console.log(editingCard);
+    },
   },
   computed: {
     ...mapGetters("work", ["getWorkCards"]),
@@ -75,6 +84,8 @@ export default {
     /* background-color: #000; */
   }
   &__body {
+    display: flex;
+    flex-direction: column;
     height: 370px;
     background-color: rgb(255, 255, 255);
   }
@@ -94,6 +105,7 @@ export default {
   }
   &__description {
     padding: 35px 30px;
+    flex: 1 0 auto;
   }
   &__title {
     font-weight: 600;
@@ -104,14 +116,18 @@ export default {
     line-height: 30px;
     color: rgba(65, 76, 99, 0.5);
     font-weight: 600;
+    max-height: 50%;
+    overflow: hidden;
   }
   &__link {
     margin-top: 26px;
   }
   &__buttons {
-    margin-top: 35px;
+    padding: 0 30px 40px;
+    /* margin-top: 35px; */
     display: flex;
     justify-content: space-between;
+    flex-shrink: 0;
   }
 }
 .link-value {

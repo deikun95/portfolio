@@ -17,7 +17,7 @@
             <app-input v-model="formData.description" title="Описание" fieldType="textarea" />
           </div>
           <div class="form__tags form__row">
-            <tagsAdder v-model="formData.tags" />
+            <tagsAdder v-model="formData.tags" :tags="formData.tags" />
           </div>
           <div class="form__buttons">
             <appButton plain title="Отправить" />
@@ -44,33 +44,43 @@ export default {
     tagsAdder,
     appButton,
   },
-  props: {},
+  props: {
+    cardData: {
+      type: Object,
+      default: () => ({}),
+    },
+  },
   data() {
     return {
       formData: {
         title: "",
         link: "",
         description: "",
-        tags: ""
+        tags: "",
       },
     };
   },
   methods: {
     ...mapActions("work", ["addWorkCard"]),
     saveForm() {
-      const tags = this.formData.tags.trim().split(",")
-      console.log(tags)
+      const tags = this.formData.tags.trim().split(",");
+      console.log(tags);
       const newCard = {
         ...this.formData,
         tags,
-        id: Date.now()
-      }
-      this.addWorkCard(newCard)
-      // this.$emit("save-form");
+        id: Date.now(),
+      };
+      this.addWorkCard(newCard);
+      this.$emit("save-form");
     },
   },
   computed: {
     ...mapGetters("work", ["getWorkCards"]),
+  },
+  mounted() {
+    if (!_.isEmpty(this.cardData)) {
+      this.formData = this.cardData;
+    }
   },
 };
 </script>

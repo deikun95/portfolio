@@ -1,6 +1,6 @@
 <template>
   <div class="tags-adder-component">
-    <app-input @input="$emit('change', currentTags)" title="Добавление тега" v-model="currentTags" />
+    <app-input @input="$emit('change', tags)" title="Добавление тега" v-model="tags" />
     <ul class="tags">
       <li class="tag" v-if="tag.trim()" v-for="(tag, index) in tagsArray" :key="`${tag}${index}`">
         <tag @click="removeTag(tag)" interactive :title="tag" />
@@ -29,12 +29,12 @@ export default {
   },
   data() {
     return {
-      currentTags: this.tags,
+      // currentTags: this.tags,
     };
   },
   computed: {
     tagsArray() {
-      return this.currentTags.trim().split(",");
+      return this.tags.trim().split(",");
     },
   },
   methods: {
@@ -44,9 +44,9 @@ export default {
 
       if (tagNdx < 0) return;
       tags.splice(tagNdx, 1);
-      this.currentTags = tags.join(", ");
+      this.tags = tags.join(", ");
 
-      this.$emit("change", this.currentTags);
+      this.$emit("change", this.tags);
     },
   },
 };

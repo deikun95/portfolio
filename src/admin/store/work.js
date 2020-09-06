@@ -8,6 +8,12 @@ export default {
   },
   mutations: {
     ADD_WORK_CARD: (state, payload) => {
+      const isFinded = state.workCards.find(item => item.id === payload.id)
+      if (isFinded) {
+        state.workCards = state.workCards.map(item => {
+          return payload
+        })
+      }
       state.workCards.push(payload);
     },
     DELETE_WORK_CARD:(state, payload) => {
@@ -16,6 +22,7 @@ export default {
   },
   actions: {
     addWorkCard({ commit }, payload) {
+      console.log(payload)
       commit("ADD_WORK_CARD", payload);
     },
     deleteWorkCard({commit}, payload){

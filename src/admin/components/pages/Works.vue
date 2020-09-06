@@ -4,16 +4,17 @@
       <div class="title">Блок "Работы"</div>
     </div>
     <div class="form-component" v-if="formActive">
-      <WorkValidationForm @save-form="saveForm" />
+      <WorkValidationForm @save-form="saveForm" :card-data="cardData" />
     </div>
     <div class="cards-component">
-      <WorkCard @add-form="addForm" />
+      <WorkCard @add-form="addForm" @edit-card="editCard" />
     </div>
   </div>
 </template>
 
 <script>
-import {mapGetters} from 'vuex'
+import { mapGetters } from "vuex";
+import lodash from "lodash"
 import WorkCard from "../WorkCard/WorkCard";
 import WorkValidationForm from "../WorkValidationForm/WorkValidationForm";
 
@@ -21,6 +22,7 @@ export default {
   data() {
     return {
       formActive: false,
+      cardData: {},
     };
   },
   components: {
@@ -33,6 +35,11 @@ export default {
     },
     saveForm($event) {
       this.formActive = false;
+    },
+    editCard($event) {
+      this.formActive = true;
+      this.cardData = $event;
+      console.log(1);
     },
   },
 };
