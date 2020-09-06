@@ -58,7 +58,6 @@ export default {
         tags,
       };
       this.$emit("edit-card", editingCard)
-      console.log(editingCard);
     },
   },
   computed: {

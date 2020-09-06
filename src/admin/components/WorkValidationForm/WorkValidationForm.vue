@@ -64,13 +64,22 @@ export default {
     ...mapActions("work", ["addWorkCard"]),
     saveForm() {
       const tags = this.formData.tags.trim().split(",");
-      console.log(tags);
-      const newCard = {
-        ...this.formData,
-        tags,
-        id: Date.now(),
-      };
-      this.addWorkCard(newCard);
+      if (!this.cardData.id) {
+        const newCard = {
+          ...this.formData,
+          tags,
+          id: Date.now(),
+        };
+        this.addWorkCard(newCard);
+      } else {
+        const newCard = {
+          ...this.formData,
+          tags,
+          id: this.cardData.id,
+        };
+
+        this.addWorkCard(newCard);
+      }
       this.$emit("save-form");
     },
   },
@@ -81,6 +90,11 @@ export default {
     if (!_.isEmpty(this.cardData)) {
       this.formData = this.cardData;
     }
+  },
+  watch: {
+    "cardData.id": function (val) {
+      this.formData.id = this.cardData.id;
+    },
   },
 };
 </script>

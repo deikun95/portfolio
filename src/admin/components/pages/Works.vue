@@ -14,7 +14,7 @@
 
 <script>
 import { mapGetters } from "vuex";
-import lodash from "lodash"
+import lodash from "lodash";
 import WorkCard from "../WorkCard/WorkCard";
 import WorkValidationForm from "../WorkValidationForm/WorkValidationForm";
 
@@ -35,11 +35,11 @@ export default {
     },
     saveForm($event) {
       this.formActive = false;
+      this.cardData = {};
     },
     editCard($event) {
       this.formActive = true;
       this.cardData = $event;
-      console.log(1);
     },
   },
 };
