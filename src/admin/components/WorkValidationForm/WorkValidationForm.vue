@@ -1,6 +1,6 @@
 <template>
   <div class="form-content">
-    <card title="Редактирование работы">
+    <card :title="titleValue">
       <div slot="content" class="work-form">
         <div class="form__upload">
           <div class="form__upload-text">Перетащите или загрузите для загрузки изображения</div>
@@ -104,12 +104,19 @@ export default {
             this.addWorkCard(newCard);
           }
           this.$emit("save-form");
+          alert("Работа успешно сохранена!");
         }
       });
     },
   },
   computed: {
     ...mapGetters("work", ["getWorkCards"]),
+    titleValue() {
+      if (_.isEmpty(this.cardData)) {
+        return "Создание работы";
+      }
+      return "Редактирование работы";
+    },
   },
   mounted() {
     if (!_.isEmpty(this.cardData)) {
@@ -126,7 +133,7 @@ export default {
 
 <style lang="postcss" scoped>
 .work-form {
-  height: 635px;
+  min-height: 635px;
   display: flex;
   flex-wrap: nowrap;
 }
@@ -156,7 +163,7 @@ export default {
   }
   &__main {
     width: 490px;
-    height: 280px;
+    /* height: 280px; */
   }
   &__row {
     margin-bottom: 27px;
@@ -164,7 +171,7 @@ export default {
   &__buttons {
     display: flex;
     justify-content: flex-end;
-    margin-bottom: 27px;
+    margin-bottom: 10px;
   }
 }
 .message {

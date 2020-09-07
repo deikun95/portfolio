@@ -1,6 +1,6 @@
 <template>
   <div class="form-content">
-    <card title="Редактирование отзыва">
+    <card :title="titleValue">
       <div slot="content" class="review-form">
         <div class="form__upload">
           <div class="form__upload-img">
@@ -96,13 +96,19 @@ export default {
             this.addReviewCard(newCard);
           }
           this.$emit("save-form");
-          alert("Validation succeeded!");
+          alert("Отзыв успешно сохранен!");
         }
       });
     },
   },
   computed: {
     ...mapGetters("review", ["getReviewCards"]),
+    titleValue() {
+      if (_.isEmpty(this.cardData)) {
+        return "Создание отзыва";
+      }
+      return "Редактирование отзыва";
+    },
   },
   mounted() {
     if (!_.isEmpty(this.cardData)) {
@@ -152,7 +158,7 @@ export default {
   }
   &__main {
     width: 490px;
-    height: 280px;
+    /* height: 280px; */
   }
   &__row {
     margin-bottom: 27px;
@@ -160,7 +166,7 @@ export default {
   &__buttons {
     display: flex;
     justify-content: flex-end;
-    margin-bottom: 27px;
+    margin-bottom: 11px;
   }
 }
 .message {
