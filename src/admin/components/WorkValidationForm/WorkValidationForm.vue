@@ -9,32 +9,38 @@
         <div class="form__main">
           <div class="form__title form__row">
             <app-input v-model="formData.title" title="Название" />
+            <div class="message">{{ validation.firstError('formData.title') }}</div>
           </div>
           <div class="form__link form__row">
             <app-input v-model="formData.link" title="Ссылка на сайт" />
+            <div class="message">{{ validation.firstError('formData.link') }}</div>
           </div>
           <div class="form__description form__row">
             <app-input v-model="formData.description" title="Описание" fieldType="textarea" />
+            <div class="message">{{ validation.firstError('formData.description') }}</div>
           </div>
           <div class="form__tags form__row">
             <tagsAdder v-model="formData.tags" :tags="formData.tags" />
+            <div class="message">{{ validation.firstError('formData.tags') }}</div>
           </div>
           <div class="form__buttons">
             <appButton plain title="Отправить" />
             <appButton title="Сохранить" @click="saveForm" />
           </div>
         </div>
-      </div>
+      </div>!
     </card>
   </div>
 </template>
 
 <script>
-import card from "../card";
+import card from "../Card";
 import appInput from "../input";
 import appButton from "../button";
 import tagsAdder from "../tagsAdder/tagsAdder";
 import { mapActions, mapGetters } from "vuex";
+import SimpleVueValidator from "simple-vue-validator";
+const Validator = SimpleVueValidator.Validator;
 
 export default {
   name: "WorkValidationForm",
@@ -48,6 +54,21 @@ export default {
     cardData: {
       type: Object,
       default: () => ({}),
+    },
+  },
+  mixins: [SimpleVueValidator.mixin],
+  validators: {
+    "formData.title": function (value) {
+      return Validator.value(value).required("Поле должно быть заполнено!");
+    },
+    "formData.link": function (value) {
+      return Validator.value(value).required("Поле должно быть заполнено!");
+    },
+    "formData.description": function (value) {
+      return Validator.value(value).required("Поле должно быть заполнено!");
+    },
+    "formData.tags": function (value) {
+      return Validator.value(value).required("Поле должно быть заполнено!");
     },
   },
   data() {
@@ -64,23 +85,27 @@ export default {
     ...mapActions("work", ["addWorkCard"]),
     saveForm() {
       const tags = this.formData.tags.trim().split(",");
-      if (!this.cardData.id) {
-        const newCard = {
-          ...this.formData,
-          tags,
-          id: Date.now(),
-        };
-        this.addWorkCard(newCard);
-      } else {
-        const newCard = {
-          ...this.formData,
-          tags,
-          id: this.cardData.id,
-        };
+      this.$validate().then((success) => {
+        if (success) {
+          if (!this.cardData.id) {
+            const newCard = {
+              ...this.formData,
+              tags,
+              id: Date.now(),
+            };
+            this.addWorkCard(newCard);
+          } else {
+            const newCard = {
+              ...this.formData,
+              tags,
+              id: this.cardData.id,
+            };
 
-        this.addWorkCard(newCard);
-      }
-      this.$emit("save-form");
+            this.addWorkCard(newCard);
+          }
+          this.$emit("save-form");
+        }
+      });
     },
   },
   computed: {
@@ -141,5 +166,9 @@ export default {
     justify-content: flex-end;
     margin-bottom: 27px;
   }
+}
+.message {
+  margin-top: 5px;
+  color: red;
 }
 </style>

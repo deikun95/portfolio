@@ -11,12 +11,15 @@
         <div class="form__main">
           <div class="form__title form__row">
             <app-input v-model="formData.title" title="Имя автора" />
+            <div class="message">{{ validation.firstError('formData.title') }}</div>
           </div>
           <div class="form__link form__row">
             <app-input v-model="formData.pos" title="Титуал автора" />
+            <div class="message">{{ validation.firstError('formData.pos') }}</div>
           </div>
           <div class="form__description form__row">
             <app-input v-model="formData.description" title="Отзыв" fieldType="textarea" />
+            <div class="message">{{ validation.firstError('formData.description') }}</div>
           </div>
           <div class="form__buttons">
             <appButton plain title="Отправить" />
@@ -34,6 +37,8 @@ import appInput from "../input";
 import appButton from "../button";
 import avatar from "../avatar/avatar";
 import { mapActions, mapGetters } from "vuex";
+import SimpleVueValidator from "simple-vue-validator";
+const Validator = SimpleVueValidator.Validator;
 
 export default {
   name: "reviewValidationForm",
@@ -43,10 +48,22 @@ export default {
     appButton,
     avatar,
   },
-   props: {
+  props: {
     cardData: {
       type: Object,
       default: () => ({}),
+    },
+  },
+  mixins: [SimpleVueValidator.mixin],
+  validators: {
+    "formData.title": function (value) {
+      return Validator.value(value).required("Поле должно быть заполнено!");
+    },
+    "formData.pos": function (value) {
+      return Validator.value(value).required("Поле должно быть заполнено!");
+    },
+    "formData.description": function (value) {
+      return Validator.value(value).required("Поле должно быть заполнено!");
     },
   },
   data() {
@@ -61,21 +78,27 @@ export default {
   methods: {
     ...mapActions("review", ["addReviewCard"]),
     saveForm() {
-      if (!this.cardData.id) {
-        const newCard = {
-          ...this.formData,
-          id: Date.now(),
-        };
-        this.addReviewCard(newCard);
-      } else {
-        const newCard = {
-          ...this.formData,
-          id: this.cardData.id,
-        };
+      this.$validate().then((success) => {
+        if (success) {
+          if (!this.cardData.id) {
+            const newCard = {
+              ...this.formData,
+              id: Date.now(),
+            };
+            console.log(1);
+            this.addReviewCard(newCard);
+          } else {
+            const newCard = {
+              ...this.formData,
+              id: this.cardData.id,
+            };
 
-        this.addReviewCard(newCard);
-      }
-      this.$emit("save-form");
+            this.addReviewCard(newCard);
+          }
+          this.$emit("save-form");
+          alert("Validation succeeded!");
+        }
+      });
     },
   },
   computed: {
@@ -96,7 +119,7 @@ export default {
 
 <style lang="postcss" scoped>
 .review-form {
-  height: 500px;
+  min-height: 500px;
   display: flex;
   flex-wrap: nowrap;
 }
@@ -112,7 +135,7 @@ export default {
     justify-content: flex-start;
     align-items: center;
     flex-direction: column;
-    &-img{
+    &-img {
       margin-bottom: 35px;
     }
     &-text {
@@ -139,5 +162,9 @@ export default {
     justify-content: flex-end;
     margin-bottom: 27px;
   }
+}
+.message {
+  margin-top: 5px;
+  color: red;
 }
 </style>
