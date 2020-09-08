@@ -3,7 +3,11 @@ import App from "./App.vue";
 import router from "./router.js";
 import { store } from "./store";
 import SimpleVueValidation from "simple-vue-validator";
-Vue.use(SimpleVueValidation);
+import axios from "axios";
+
+Vue.prototype.$axios = axios;
+
+Vue.use(SimpleVueValidation, { mode: "manual" });
 
 new Vue({
   el: "#app-root",

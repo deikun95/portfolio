@@ -10,25 +10,30 @@
     <div class="btn-file-fake btn-decorator">{{title}}</div>
     <input class="btn-file-input" type="file" v-on="$listeners" />
   </label>
+
+  <form class="btn-file-container" v-else-if="typeAttr === 'submit'">
+    <div class="btn-file-fake btn-decorator">{{title}}</div>
+    <input class="btn-file-input" type="submit" v-on="$listeners" />
+  </form>
 </template>
 <script>
 export default {
   props: {
     title: {
       type: String,
-      default: "Отправить"
+      default: "Отправить",
     },
     disabled: {
       type: Boolean,
-      default: false
+      default: false,
     },
     plain: Boolean,
     typeAttr: {
       type: String,
       default: "button",
-      validator: value => ["button", "file"].includes(value)
-    }
-  }
+      validator: (value) => ["button", "file", "submit"].includes(value),
+    },
+  },
 };
 </script>
 
