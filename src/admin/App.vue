@@ -1,41 +1,15 @@
 <template>
   <div class="app-container">
-    <headline title="Панель администрирования">
-      <user />
-    </headline>
-    <navigation />
-    <div class="page-content">
-      <div class="container">
         <router-view></router-view>
-      </div>
-    </div>
+    
   </div>
 </template>
 
 <script>
-import headline from "./components/headline/headline";
-import user from "./components/user";
-import navigation from "./components/navigation";
-import button from "./components/button";
-import category from "./components/category";
+
 
 export default {
-  components: {
-    user,
-    headline,
-    navigation,
-    iconedButton: button,
-    category,
-  },
-  data() {
-    return {
-      categories: [],
-      isShown: false,
-    };
-  },
-  created() {
-    this.categories = require("../data/categories.json");
-  },
+ 
 };
 </script>
 

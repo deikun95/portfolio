@@ -6,20 +6,33 @@ Vue.use(VueRouter);
 const routes = [
   {
     path: "/",
-    name: "about",
-    component: () => import("./components/pages/About.vue"),
-    props: true,
+    // name: "about",
+    component: () => import("./components/pages/Main.vue"),
+    children: [
+      {
+        path: "/",
+        name: "about",
+        component: () => import("./components/pages/About.vue"),
+        props: true,
+      },
+      {
+        path: "/reviews",
+        name: "reviews",
+        component: () => import("./components/pages/Reviews.vue"),
+        props: true,
+      },
+      {
+        path: "/works",
+        name: "works",
+        component: () => import("./components/pages/Works.vue"),
+        props: true,
+      },
+    ],
   },
   {
-    path: "/reviews",
-    name: "reviews",
-    component: () => import("./components/pages/Reviews.vue"),
-    props: true,
-  },
-  {
-    path: "/works",
-    name: "works",
-    component: () => import("./components/pages/Works.vue"),
+    path: "/login",
+    name: "login",
+    component: () => import("./components/pages/Login.vue"),
     props: true,
   },
 ];
