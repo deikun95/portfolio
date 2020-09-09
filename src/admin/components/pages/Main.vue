@@ -34,11 +34,13 @@ export default {
     };
   },
   created() {
+    if (!localStorage.getItem("token")) {
+      this.$router.replace("/login");
+    }
     this.categories = require("../../../data/categories.json");
   },
 };
 </script>
 
 <style lang="postcss">
-
 </style>
