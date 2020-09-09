@@ -60,7 +60,7 @@
               />
 
               <appButton
-                v-if="!isReg"
+                v-if="isAuth"
                 class="auth-btn"
                 @click="submitHandler"
                 title="Войти"
@@ -156,6 +156,14 @@ export default {
           this.isReg = true;
         }
       });
+    },
+  },
+  watch: {
+    isAuth: function() {
+      this.user = {
+        name: "",
+        password: ""
+      }
     },
   },
 };
