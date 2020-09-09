@@ -6,6 +6,7 @@ import SimpleVueValidation from "simple-vue-validator";
 import axios from "axios";
 
 Vue.prototype.$axios = axios;
+Vue.prototype.$baseUrl = "https://webdev-api.loftschool.com";
 
 Vue.use(SimpleVueValidation, { mode: "manual" });
 

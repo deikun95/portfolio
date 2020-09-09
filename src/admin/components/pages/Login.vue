@@ -46,7 +46,6 @@ export default {
         name: "",
         password: "",
       },
-      token: null,
     };
   },
   methods: {
@@ -54,14 +53,16 @@ export default {
       this.$validate().then((success) => {
         if (success) {
           const userData = {
-              name: this.user.name,
-              password: this.user.password
-          }
+            name: this.user.name,
+            password: this.user.password,
+          };
           this.$axios
             .post("https://webdev-api.loftschool.com/login", userData)
             .then((res) => {
-              this.token = res.data.token
-              console.log(this.token)
+                const token = res.data.token
+              localStorage.setItem("token", token);
+              this.$axios.defaults.headers["Authorization"] = `Bearer ${token}`;
+              this.$router.replace("/")
             })
             .catch((err) => console.log(err));
         }
@@ -71,7 +72,7 @@ export default {
 };
 </script>
 
-<style lang="postcss">
+<style lang="postcss" scoped>
 .page-content {
   padding: 0 !important;
 }
