@@ -1,5 +1,8 @@
 <template>
   <div class="page-content">
+    <div :class="{ success: successMessage, alert: alertMessage }">
+      {{ successMessage || alertMessage }}
+    </div>
     <div class="login-component">
       <div class="login-content">
         <form class="login-card">
@@ -99,6 +102,9 @@ export default {
         name: "",
         password: "",
       },
+      successMessage: "",
+      alertMessage: "",
+
       isAuth: true,
       isReg: false,
     };
@@ -119,7 +125,10 @@ export default {
               this.$axios.defaults.headers["Authorization"] = `Bearer ${token}`;
               this.$router.replace("/");
             })
-            .catch((err) => console.log(err));
+            .catch((err) => {
+              this.alertMessage = "Неверный логин или пароль";
+              setTimeout(() => (this.alertMessage = ""), 3000);
+            });
         }
       });
     },
@@ -132,9 +141,17 @@ export default {
       this.$validate().then((success) => {
         if (success) {
           if (this.isReg === true) {
-            this.$axios.post(`${this.$baseUrl}/register`, userData).then(() => {
-              (this.isReg = false), (this.isAuth = true);
-            });
+            this.$axios
+              .post(`${this.$baseUrl}/register`, userData)
+              .then((res) => {
+                (this.isReg = false), (this.isAuth = true);
+                this.successMessage = res.data.message;
+                setTimeout(() => (this.successMessage = ""), 3000);
+              })
+              .catch((err) => {
+                this.alertMessage = "Такой пользователь уже существует";
+                setTimeout(() => (this.alertMessage = ""), 3000);
+              });
           }
           this.isReg = true;
         }
@@ -147,6 +164,7 @@ export default {
 <style lang="postcss" scoped>
 .page-content {
   padding: 0 !important;
+  position: relative;
 }
 .login {
   &-card {
@@ -187,5 +205,25 @@ export default {
 .message {
   margin-top: 10px;
   color: red;
+}
+.success {
+  position: absolute;
+  width: 100%;
+  height: 50px;
+  background-color: rgb(67, 255, 139);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: black;
+}
+.alert {
+  position: absolute;
+  width: 100%;
+  height: 50px;
+  background-color: rgb(255, 41, 3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
 }
 </style>
