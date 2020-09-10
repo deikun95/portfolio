@@ -1,11 +1,11 @@
 <template>
   <div :class="['add-line-component', { blocked: blocked }]">
-    <app-input class="line__title" v-model="title" />
+    <app-input class="line__title" v-model="skill.title" />
     <div class="percent-box">
-      <app-input class="line__percent" v-model="percent" />
+      <app-input class="line__percent" v-model="skill.percent" max="3" maxlength="3" type="number" />
       <span class="line__percent-label">%</span>
     </div>
-    <round-btn type="round" />
+    <round-btn type="round" @click="addSkill" />
   </div>
 </template>
 
@@ -16,16 +16,25 @@ import appInput from "../input";
 export default {
   props: {
     blocked: Boolean,
+    token: String,
+    categoryId: Number,
   },
   data() {
     return {
-      title: "Новый навык",
-      percent: "",
+      skill: { title: "", percent: "" },
     };
   },
   components: {
     appInput,
     roundBtn,
+  },
+  methods: {
+    addSkill() {
+      if (!Object.values(this.skill).includes("")) {
+        console.log(1)
+        this.$emit("add-skill", this.skill);
+      }
+    },
   },
 };
 </script>

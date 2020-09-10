@@ -12,7 +12,7 @@
       <app-input v-model="currentSkill.title" noSidePaddings />
     </div>
     <div class="percent">
-      <app-input v-model="currentSkill.percent" type="number" min="0" max="100" maxlength="3" />
+      <app-input v-model="currentSkill.percent" type="number" min="0" max="3" maxlength="3" />
     </div>
     <div class="buttons">
       <icon symbol="tick" class="btn" @click="$emit('approve', currentSkill)" />
@@ -37,9 +37,8 @@ export default {
     return {
       editmode: false,
       currentSkill: {
-        id: 0,
-        title: this.skill.title,
-        percent: this.skill.percent,
+        title: "",
+        percent: "",
       },
     };
   },
@@ -47,6 +46,10 @@ export default {
     input,
     appInput: input,
     icon,
+  },
+  created() {
+    this.currentSkill = { ...this.skill };
+    console.log(this.currentSkill);
   },
 };
 </script>
@@ -68,7 +71,7 @@ export default {
 }
 .percent {
   position: absolute;
-  right: 4.125rem;
+  right: calc(4.125rem+20px);
   font-weight: 600;
 }
 </style>

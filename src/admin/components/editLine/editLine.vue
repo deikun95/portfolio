@@ -1,9 +1,9 @@
 <template>
   <div class="edit-line-component" :class="{'blocked' : blocked}">
-    <div class="title" v-if="editmode === false">
+    <div class="title" v-if="editMode === false">
       <div class="text">{{value}}</div>
       <div class="icon">
-        <icon symbol="pencil" grayscale @click="editmode = true"></icon>
+        <icon symbol="pencil" @click="editCard" grayscale></icon>
       </div>
     </div>
     <div v-else class="title">
@@ -35,34 +35,42 @@ export default {
   props: {
     value: {
       type: String,
-      default: ""
+      default: "",
     },
     errorText: {
       type: String,
-      default: ""
+      default: "",
     },
     editModeByDefault: Boolean,
-    blocked: Boolean
+    blocked: Boolean,
   },
   data() {
     return {
-      editmode: this.editModeByDefault,
-      title: this.value
+      editMode: this.editModeByDefault,
+      title: this.value,
     };
   },
   methods: {
+    editCard() {
+      this.editMode = true;
+      this.$emit("edit-card");
+    },
     onApprove() {
-      if (this.title.trim() === this.value.trim()) {
-        this.editmode = false;
-      } else {
-        this.$emit("approve", this.value);
+      if (this.value !== "") {
+        console.log(11)
+        if (this.title.trim() === this.value.trim()) {
+          this.editMode = false;
+        } else {
+          this.editMode = false;
+          this.$emit("approve", this.value);
+        }
       }
-    }
+    },
   },
   components: {
     icon: () => import("components/icon"),
-    appInput: () => import("components/input")
-  }
+    appInput: () => import("components/input"),
+  },
 };
 </script>
 

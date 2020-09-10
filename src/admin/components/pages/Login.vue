@@ -1,34 +1,32 @@
 <template>
   <div class="page-content">
-    <div :class="{ success: successMessage, alert: alertMessage }">
-      {{ successMessage || alertMessage }}
-    </div>
+    <div
+      :class="{ success: successMessage, alert: alertMessage }"
+    >{{ successMessage || alertMessage }}</div>
     <div class="login-component">
       <div class="login-content">
         <form class="login-card">
-          <div class="auth" v-if="isAuth">
-            <div class="login-title">Авторизация</div>
-            <app-input
-              class="login-input"
-              v-model="user.name"
-              title="Логин"
-              icon="user"
-              @keyup.enter="submitHandler"
-            />
-            <div class="message">{{ validation.firstError("user.name") }}</div>
-            <app-input
-              class="login-input"
-              type="password"
-              v-model="user.password"
-              title="Пароль"
-              @keyup.enter="submitHandler"
-              icon="key"
-            />
-            <div class="message">
-              {{ validation.firstError("user.password") }}
-            </div>
-          </div>
-          <div class="register" v-else>
+          <!-- <div class="auth" v-if="isAuth"> -->
+          <div class="login-title">Авторизация</div>
+          <app-input
+            class="login-input"
+            v-model="user.name"
+            title="Логин"
+            icon="user"
+            @keyup.enter="submitHandler"
+          />
+          <div class="message">{{ validation.firstError("user.name") }}</div>
+          <app-input
+            class="login-input"
+            type="password"
+            v-model="user.password"
+            title="Пароль"
+            @keyup.enter="submitHandler"
+            icon="key"
+          />
+          <div class="message">{{ validation.firstError("user.password") }}</div>
+          <!-- </div> -->
+          <!-- <div class="register" v-else>
             <div class="login-title">Регистрация</div>
             <app-input
               class="login-input"
@@ -46,25 +44,13 @@
               @keyup.enter="submitHandler"
               icon="key"
             />
-            <div class="message">
-              {{ validation.firstError("user.password") }}
-            </div>
-          </div>
+            <div class="message">{{ validation.firstError("user.password") }}</div>
+          </div>-->
           <div class="login-button">
             <div class="login-button">
-              <appButton
-                class="auth-btn"
-                @click="regHandler"
-                plain
-                title="Зарегистрироваться"
-              />
+              <!-- <appButton class="auth-btn" @click="regHandler" plain title="Зарегистрироваться" /> -->
 
-              <appButton
-                v-if="isAuth"
-                class="auth-btn"
-                @click="submitHandler"
-                title="Войти"
-              />
+              <appButton v-if="isAuth" class="auth-btn" @click="submitHandler" title="Войти" />
             </div>
           </div>
         </form>
@@ -84,10 +70,10 @@ const Validator = SimpleVueValidator.Validator;
 export default {
   mixins: [SimpleVueValidator.mixin],
   validators: {
-    "user.name": function(value) {
+    "user.name": function (value) {
       return Validator.value(value).required("Введите логин");
     },
-    "user.password": function(value) {
+    "user.password": function (value) {
       return Validator.value(value).required("Введите пароль");
     },
   },
@@ -132,38 +118,41 @@ export default {
         }
       });
     },
-    regHandler() {
-      this.isAuth = false;
-      const userData = {
-        name: this.user.name,
-        password: this.user.password,
-      };
-      this.$validate().then((success) => {
-        if (success) {
-          if (this.isReg === true) {
-            this.$axios
-              .post(`${this.$baseUrl}/register`, userData)
-              .then((res) => {
-                (this.isReg = false), (this.isAuth = true);
-                this.successMessage = res.data.message;
-                setTimeout(() => (this.successMessage = ""), 3000);
-              })
-              .catch((err) => {
-                this.alertMessage = "Такой пользователь уже существует";
-                setTimeout(() => (this.alertMessage = ""), 3000);
-              });
-          }
-          this.isReg = true;
-        }
-      });
-    },
+    // regHandler() {
+    //   this.isAuth = false;
+    //   const userData = {
+    //     name: this.user.name,
+    //     password: this.user.password,
+    //   };
+    //   this.$validate().then((success) => {
+    //     if (success) {
+    //       if (this.isReg === true) {
+    //         this.$axios
+    //           .post(`${this.$baseUrl}/register`, {
+    //             name: this.user.name,
+    //             password: this.user.password,
+    //           })
+    //           .then((res) => {
+    //             (this.isReg = false), (this.isAuth = true);
+    //             this.successMessage = res.data.message;
+    //             setTimeout(() => (this.successMessage = ""), 3000);
+    //           })
+    //           .catch((err) => {
+    //             this.alertMessage = "Такой пользователь уже существует";
+    //             setTimeout(() => (this.alertMessage = ""), 3000);
+    //           });
+    //       }
+    //       this.isReg = true;
+    //     }
+    //   });
+    // },
   },
   watch: {
-    isAuth: function() {
+    isAuth: function () {
       this.user = {
         name: "",
-        password: ""
-      }
+        password: "",
+      };
     },
   },
 };

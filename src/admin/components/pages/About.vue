@@ -2,26 +2,26 @@
   <div>
     <div class="header">
       <div class="title">Блок "Обо мне"</div>
-      <iconed-button
-        v-if="!isShown"
-        @click="isShown = true"
-        type="iconed"
-        title="Добавить группу"
-      />
+      <iconed-button @click="addCard" type="iconed" title="Добавить группу" />
     </div>
     <ul class="skills">
-      <li class="item item-card" v-if="isShown">
-        <category @remove="isShown = false" empty />
-      </li>
-      <li
-        class="item item-card"
-        v-for="category in categories"
-        :key="category.id"
-      >
+      <!-- <li class="item item-card" v-if="isShown">
         <category
+          @remove="isShown = false"
+          empty
+        />
+      </li>-->
+      <li class="item item-card" v-for="item in getAllCategories" :key="item.category_id">
+        <category
+          @remove="deleteCard"
+          :categoryId="item.category_id"
+          :token="token"
+          :empty="empty"
           class="item-category"
-          :title="category.category"
-          :skills="category.skills"
+          :title="item.category"
+          :skills="item.skills"
+          @add-skill="addSkill"
+          @edit-card="empty = !empty"
         />
       </li>
     </ul>
@@ -34,6 +34,7 @@ import user from "../user";
 import navigation from "../navigation";
 import button from "../button";
 import category from "../category";
+import { mapGetters, mapActions } from "vuex";
 
 export default {
   components: {
@@ -45,12 +46,36 @@ export default {
   },
   data() {
     return {
-      categories: [],
-      isShown: false,
+      empty: true,
+      token: null,
     };
   },
+  methods: {
+    ...mapActions("about", ["addCategoryItem", "addSkillItem", "deleteCardItem"]),
+    deleteCard(categoryId) {
+      this.empty = true;
+      this.deleteCardItem(categoryId)
+    },
+    addCard() {
+      const category = {
+        category_id: Date.now(),
+        title: "",
+        skills: [],
+      };
+      this.addCategoryItem(category);
+    },
+    addSkill($event) {
+      const skill = $event;
+      this.addSkillItem($event);
+    },
+  },
+  computed: {
+    ...mapGetters("about", ["getAllCategories"]),
+  },
   created() {
-    this.categories = require("../../../data/categories.json");
+    this.token = localStorage.getItem("token");
+    // this.categories = require("../../../data/categories.json");
+    console.log(this.token);
   },
 };
 </script>

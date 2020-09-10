@@ -39,7 +39,7 @@ export default {
   /* height: 100%; */
   display: flex;
   flex-direction: column;
-  width: 70%;
+  /* width: 70%; */
   &.card_plain {
     padding: 0;
   }

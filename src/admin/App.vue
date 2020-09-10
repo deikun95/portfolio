@@ -5,7 +5,7 @@
 </template>
 
 <script>
-
+import lodash from "lodash"
 export default {};
 </script>
 

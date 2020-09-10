@@ -8,3 +8,5 @@ out
 coverage
 dist
 .eslintcache
+dist/admin/index.html
+dist/index.html
