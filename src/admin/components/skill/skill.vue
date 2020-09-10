@@ -15,7 +15,7 @@
       <app-input v-model="currentSkill.percent" type="number" min="0" max="3" maxlength="3" />
     </div>
     <div class="buttons">
-      <icon symbol="tick" class="btn" @click="$emit('approve', currentSkill)" />
+      <icon symbol="tick" class="btn" @click="$emit('approve', {...currentSkill, id} )" />
       <icon symbol="cross" class="btn" @click="editmode = false" />
     </div>
   </div>
@@ -27,6 +27,7 @@ import icon from "../icon";
 
 export default {
   props: {
+    id: Number,
     skill: {
       type: Object,
       default: () => ({}),
@@ -49,7 +50,6 @@ export default {
   },
   created() {
     this.currentSkill = { ...this.skill };
-    console.log(this.currentSkill);
   },
 };
 </script>

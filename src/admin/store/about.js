@@ -18,16 +18,24 @@ export default {
         percent: payload.percent,
       };
       state.categories = state.categories.map((item) => {
-        if (item.category_id === payload.categoryId) {
+        if (item.id === payload.id) {
           item.skills.push(newSkill);
         }
         return item;
       });
     },
     DELETE_CATEGORY_ITEM: (state, payload) => {
-      state.categories = state.categories.filter(
-        (item) => item.category_id !== payload
-      );
+      state.categories = state.categories.filter((item) => {
+        return item.id !== payload;
+      });
+    },
+    REFRESH_CATEGORY_TITLE: (state, payload) => {
+      state.categories = state.categories.map((item) => {
+        if (item.id === payload.id) {
+          item.title = payload.val;
+        }
+        return item;
+      });
     },
   },
   actions: {
@@ -39,6 +47,9 @@ export default {
     },
     deleteCardItem({ commit }, payload) {
       commit("DELETE_CATEGORY_ITEM", payload);
+    },
+    refreshCategoryTitle({ commit }, payload) {
+      commit("REFRESH_CATEGORY_TITLE", payload);
     },
   },
 };

@@ -17,7 +17,7 @@ export default {
   props: {
     blocked: Boolean,
     token: String,
-    categoryId: Number,
+    id: Number,
   },
   data() {
     return {

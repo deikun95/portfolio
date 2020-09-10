@@ -6,7 +6,7 @@
       v-model="categoryTitle"
       :editModeByDefault="empty"
       @approve="approveCategory"
-      @remove="$emit('remove', categoryId)"
+      @remove="$emit('remove', id)"
       @edit-card="editCard"
     />
     <template slot="content">
@@ -14,6 +14,7 @@
         <ul class="skills" slot="content">
           <li class="item" v-for="skill in skills" :key="skill.id">
             <skill
+              :id="id"
               :skill="skill"
               @remove="$emit('remove-skill', $event)"
               @approve="$emit('edit-skill', $event)"
@@ -22,7 +23,7 @@
         </ul>
       </div>
       <div class="bottom-line" v-if="isEdit">
-        <skill-add-line @add-skill="$emit('add-skill', {...$event, categoryId})" />
+        <skill-add-line @add-skill="$emit('add-skill', {...$event, id})" />
       </div>
     </template>
   </card>
@@ -33,6 +34,7 @@ import card from "../Card";
 import editLine from "../editLine";
 import skill from "../skill";
 import skillAddLine from "../skillAddLine";
+import { mapActions, mapGetters } from "vuex";
 
 export default {
   components: {
@@ -42,7 +44,7 @@ export default {
     skillAddLine,
   },
   props: {
-    categoryId: Number,
+    id: Number,
     token: String,
     empty: Boolean,
     title: {
@@ -60,9 +62,11 @@ export default {
       categoryTitle: this.title,
       currentToken: this.token,
       userId: null,
+      categoryId: null,
     };
   },
   methods: {
+    ...mapActions("about", ["refreshCategoryTitle"]),
     editCard() {
       this.isEdit = !this.isEdit;
       this.$emit("edit-card");
@@ -83,9 +87,9 @@ export default {
     },
   },
   watch: {
-    // categoryTitle(val){
-    //   console.log(val)
-    // }
+    categoryTitle(val) {
+      this.refreshCategoryTitle({ val, id: this.id });
+    },
   },
   created() {
     this.skills;

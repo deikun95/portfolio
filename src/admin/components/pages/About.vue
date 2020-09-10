@@ -11,17 +11,18 @@
           empty
         />
       </li>-->
-      <li class="item item-card" v-for="item in getAllCategories" :key="item.category_id">
+      <li class="item item-card" v-for="item in getAllCategories" :key="item.id">
         <category
           @remove="deleteCard"
-          :categoryId="item.category_id"
+          :id="item.id"
           :token="token"
           :empty="empty"
           class="item-category"
-          :title="item.category"
+          :title="item.title"
           :skills="item.skills"
           @add-skill="addSkill"
           @edit-card="empty = !empty"
+          @new-title="categoryTitle = $event"
         />
       </li>
     </ul>
@@ -48,23 +49,25 @@ export default {
     return {
       empty: true,
       token: null,
+      categoryTitle: ""
     };
   },
   methods: {
-    ...mapActions("about", ["addCategoryItem", "addSkillItem", "deleteCardItem"]),
+    ...mapActions("about", ["addCategoryItem", "addSkillItem", "deleteCardItem", "refreshCategoryTitle"]),
     deleteCard(categoryId) {
       this.empty = true;
       this.deleteCardItem(categoryId)
     },
     addCard() {
       const category = {
-        category_id: Date.now(),
-        title: "",
+        id: Date.now(),
+        title: this.categoryTitle,
         skills: [],
       };
       this.addCategoryItem(category);
     },
     addSkill($event) {
+      console.log($event)
       const skill = $event;
       this.addSkillItem($event);
     },
