@@ -15,7 +15,7 @@
       <app-input v-model="currentSkill.percent" type="number" min="0" max="3" maxlength="3" />
     </div>
     <div class="buttons">
-      <icon symbol="tick" class="btn" @click="$emit('approve', {...currentSkill, id} )" />
+      <icon symbol="tick" class="btn" @click="editSkill" />
       <icon symbol="cross" class="btn" @click="editmode = false" />
     </div>
   </div>
@@ -47,6 +47,12 @@ export default {
     input,
     appInput: input,
     icon,
+  },
+  methods: {
+    editSkill() {
+      this.editmode = false;
+      this.$emit("approve", { ...this.currentSkill });
+    },
   },
   created() {
     this.currentSkill = { ...this.skill };

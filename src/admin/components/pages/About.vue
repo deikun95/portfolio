@@ -13,14 +13,14 @@
       </li>-->
       <li class="item item-card" v-for="item in getAllCategories" :key="item.id">
         <category
-          @remove-skill="deleteSkill"
-          @remove="deleteCard"
           :id="item.id"
           :token="token"
           :empty="empty"
           class="item-category"
           :title="item.title"
           :skills="item.skills"
+          @remove-skill="deleteSkill"
+          @remove="deleteCard"
           @add-skill="addSkill"
           @edit-card="empty = !empty"
           @new-title="categoryTitle = $event"

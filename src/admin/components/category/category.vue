@@ -17,7 +17,7 @@
               :id="id"
               :skill="skill"
               @remove="$emit('remove-skill', $event)"
-              @approve="$emit('edit-skill', $event)"
+              @approve="editSkill"
             />
           </li>
         </ul>
@@ -66,7 +66,7 @@ export default {
     };
   },
   methods: {
-    ...mapActions("about", ["refreshCategoryTitle"]),
+    ...mapActions("about", ["refreshCategoryTitle", "editSkillItem"]),
     editCard() {
       this.isEdit = !this.isEdit;
       this.$emit("edit-card");
@@ -84,6 +84,9 @@ export default {
           this.userId = res.data.user_id;
           this.categoryId = res.data.id;
         });
+    },
+    editSkill($event) {
+      this.editSkillItem($event);
     },
   },
   watch: {

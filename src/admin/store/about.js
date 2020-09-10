@@ -16,7 +16,7 @@ export default {
       const newSkill = {
         title: payload.title,
         percent: payload.percent,
-        skill_id: payload.skillId
+        skill_id: payload.skillId,
       };
       state.categories = state.categories.map((item) => {
         if (item.id === payload.id) {
@@ -44,6 +44,18 @@ export default {
         return item;
       });
     },
+    EDIT_SKILL_ITEM: (state, payload) => {
+      console.log(state.categories, "///");
+      state.categories = state.categories.map((item) => {
+        item.skills = item.skills.map((skill) => {
+          if (skill.skill_id === payload.skill_id) {
+            return payload
+          }
+          return skill;
+        });
+        return item;
+      });
+    },
   },
   actions: {
     addCategoryItem({ commit }, payload) {
@@ -60,6 +72,9 @@ export default {
     },
     refreshCategoryTitle({ commit }, payload) {
       commit("REFRESH_CATEGORY_TITLE", payload);
+    },
+    editSkillItem({ commit }, payload) {
+      commit("EDIT_SKILL_ITEM", payload);
     },
   },
 };
