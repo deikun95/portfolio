@@ -4,7 +4,7 @@
     <div class="percent">{{skill.percent}}</div>
     <div class="buttons">
       <icon symbol="pencil" class="btn" @click="editmode = true" grayscale />
-      <icon symbol="trash" class="btn" @click="$emit('remove', skill.id)" grayscale />
+      <icon symbol="trash" class="btn" @click="$emit('remove', skill.skill_id)" grayscale />
     </div>
   </div>
   <div class="skill-component" v-else>

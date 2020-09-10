@@ -12,7 +12,7 @@
     <template slot="content">
       <div class="skills-content">
         <ul class="skills" slot="content">
-          <li class="item" v-for="skill in skills" :key="skill.id">
+          <li class="item" v-for="skill in skills" :key="skill.skill_id">
             <skill
               :id="id"
               :skill="skill"

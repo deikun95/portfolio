@@ -13,6 +13,7 @@
       </li>-->
       <li class="item item-card" v-for="item in getAllCategories" :key="item.id">
         <category
+          @remove-skill="deleteSkill"
           @remove="deleteCard"
           :id="item.id"
           :token="token"
@@ -49,14 +50,20 @@ export default {
     return {
       empty: true,
       token: null,
-      categoryTitle: ""
+      categoryTitle: "",
     };
   },
   methods: {
-    ...mapActions("about", ["addCategoryItem", "addSkillItem", "deleteCardItem", "refreshCategoryTitle"]),
+    ...mapActions("about", [
+      "addCategoryItem",
+      "addSkillItem",
+      "deleteCardItem",
+      "refreshCategoryTitle",
+      "deleteSkillItem"
+    ]),
     deleteCard(categoryId) {
       this.empty = true;
-      this.deleteCardItem(categoryId)
+      this.deleteCardItem(categoryId);
     },
     addCard() {
       const category = {
@@ -67,10 +74,13 @@ export default {
       this.addCategoryItem(category);
     },
     addSkill($event) {
-      console.log($event)
+      console.log($event);
       const skill = $event;
       this.addSkillItem($event);
     },
+    deleteSkill($event) {
+      this.deleteSkillItem($event)
+    }
   },
   computed: {
     ...mapGetters("about", ["getAllCategories"]),
