@@ -91,6 +91,21 @@ export default {
         return card;
       });
     },
+    EDIT_SKILL_ITEM: (state, payload) => {
+      state.cards.map((card) => {
+        if (card.cardId === payload.cardId) {
+          card.skills.map((skill) => {
+            if (skill.id === payload.id) {
+              skill.title = payload.title;
+              skill.percent = payload.percent;
+            }
+            return skill;
+          });
+          return card;
+        }
+        return card;
+      });
+    },
     DELETE_CATEGORY_ITEM: (state, payload) => {
       state.cards = state.cards.filter(
         (card) => card.cardId !== payload.cardId
@@ -192,14 +207,17 @@ export default {
         });
     },
     editSkillItem({ commit }, payload) {
+      const newSkill = {
+        title: payload.title,
+        percent: payload.percent,
+        category: payload.category.category_id,
+      };
       axios.defaults.headers["Authorization"] = `Bearer ${localStorage.getItem(
         "token"
       )}`;
-      axios
-        .delete(`${baseUrl}/categories/${payload.category.category_id}`)
-        .then((res) => {
-          commit("EDIT_SKILL_ITEM", payload);
-        });
+      axios.post(`${baseUrl}/skills/${payload.id}`, newSkill).then((res) => {
+        commit("EDIT_SKILL_ITEM", payload);
+      });
     },
   },
 };

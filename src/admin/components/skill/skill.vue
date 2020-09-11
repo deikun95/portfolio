@@ -27,7 +27,6 @@ import icon from "../icon";
 
 export default {
   props: {
-    id: Number,
     skill: {
       type: Object,
       default: () => ({}),

@@ -78,7 +78,6 @@ export default {
   methods: {
     ...mapActions("about", [
       "refreshCategoryTitle",
-      "editSkillItem",
       "addNewCategory",
       "editCategoryItem",
       "deleteCategoryItem",
@@ -107,7 +106,8 @@ export default {
       this.addSkillItem({ ...this.card, ...$event });
     },
     editSkill($event) {
-      this.editSkillItem($event);
+      this.editSkillItem({...this.card, ...$event});
+      console.log($event, "skill")
     },
   },
   watch: {
