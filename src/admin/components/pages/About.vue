@@ -77,7 +77,8 @@ export default {
       this.empty = true;
       const newCard = {
         cardId: Date.now(),
-        category: {}
+        category: {},
+        skills: []
       }
       const category = {
         id: Date.now(),

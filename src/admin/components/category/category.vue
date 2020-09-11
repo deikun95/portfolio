@@ -21,9 +21,8 @@
     <template slot="content">
       <div class="skills-content">
         <ul class="skills" slot="content">
-          <li class="item" v-for="skill in skills" :key="skill.skill_id">
+          <li class="item" v-for="skill in card.skills" :key="skill.id">
             <skill
-              :id="id"
               :skill="skill"
               @remove="$emit('remove-skill', $event)"
               @approve="editSkill"
@@ -32,7 +31,7 @@
         </ul>
       </div>
       <div class="bottom-line" v-if="isEdit">
-        <skill-add-line @add-skill="$emit('add-skill', {...$event, id})" />
+        <skill-add-line @add-skill="addSkill" />
       </div>
     </template>
   </card>
@@ -83,12 +82,13 @@ export default {
       "addNewCategory",
       "editCategoryItem",
       "deleteCategoryItem",
+      "addSkillItem",
+      "editSkillItem",
+      "deleteSkillItem",
     ]),
     editCard() {
       this.isEdit = !this.isEdit;
-      // this.isEdited = true
       this.$emit("edit-card");
-      console.log("dassd");
     },
     approveCategory($event) {
       this.isEdit = !this.isEdit;
@@ -101,8 +101,10 @@ export default {
       this.isEdited = true;
     },
     deleteCategory() {
-      console.log("delete")
       this.deleteCategoryItem(this.card);
+    },
+    addSkill($event) {
+      this.addSkillItem({ ...this.card, ...$event });
     },
     editSkill($event) {
       this.editSkillItem($event);

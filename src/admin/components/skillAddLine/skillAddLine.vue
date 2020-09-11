@@ -31,8 +31,8 @@ export default {
   methods: {
     addSkill() {
       if (!Object.values(this.skill).includes("")) {
-        console.log(1);
-        this.$emit("add-skill", { ...this.skill, skillId: Date.now() });
+        this.$emit("add-skill", this.skill);
+        this.skill = { title: "", percent: "" };
       }
     },
   },
