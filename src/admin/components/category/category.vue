@@ -22,11 +22,7 @@
       <div class="skills-content">
         <ul class="skills" slot="content">
           <li class="item" v-for="skill in card.skills" :key="skill.id">
-            <skill
-              :skill="skill"
-              @remove="$emit('remove-skill', $event)"
-              @approve="editSkill"
-            />
+            <skill :skill="skill" @remove="deleteSkill" @approve="editSkill" />
           </li>
         </ul>
       </div>
@@ -106,8 +102,11 @@ export default {
       this.addSkillItem({ ...this.card, ...$event });
     },
     editSkill($event) {
-      this.editSkillItem({...this.card, ...$event});
-      console.log($event, "skill")
+      this.editSkillItem({ ...this.card, ...$event });
+    },
+    deleteSkill($event) {
+      console.log($event, "deelte");
+      this.deleteSkillItem({ ...this.card, id: $event });
     },
   },
   watch: {

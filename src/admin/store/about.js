@@ -68,7 +68,7 @@ export default {
     // СОЗДАНИЕ КАРТОЧЕК ПОСРЕДСТВОМ ВЗАИМОДЕЙСТВИЯ С API
 
     ADD_NEW_CARD: (state, payload) => {
-      state.cards.push(payload);
+      state.cards.unshift(payload);
     },
     ADD_NEW_CATEGORY: (state, payload) => {
       state.cards.map((card) => {
@@ -80,7 +80,6 @@ export default {
         }
         return card;
       });
-      console.log();
     },
     EDIT_CATEGORY_ITEM: (state, payload) => {
       state.cards.map((card) => {
@@ -110,6 +109,16 @@ export default {
       state.cards = state.cards.filter(
         (card) => card.cardId !== payload.cardId
       );
+    },
+    DELETE_SKILL_ITEM: (state, payload) => {
+      console.log(payload, "mutation-delete");
+      state.cards.map((card) => {
+        if (card.cardId === payload.cardId) {
+          card.skills = card.skills.filter((skill) => skill.id !== payload.id);
+          return card;
+        }
+        return card;
+      });
     },
   },
   actions: {
@@ -161,26 +170,23 @@ export default {
         });
     },
     editCategoryItem({ commit }, payload) {
+      commit("EDIT_CATEGORY_ITEM", payload);
       axios.defaults.headers["Authorization"] = `Bearer ${localStorage.getItem(
         "token"
       )}`;
-      axios
-        .post(`${baseUrl}/categories/${payload.category.category_id}`, {
-          title: payload.categoryTitle,
-        })
-        .then((res) => {
-          commit("EDIT_CATEGORY_ITEM", payload);
-        });
+      axios.post(`${baseUrl}/categories/${payload.category.category_id}`, {
+        title: payload.categoryTitle,
+      });
     },
     deleteCategoryItem({ commit }, payload) {
+      commit("DELETE_CATEGORY_ITEM", payload);
+
       axios.defaults.headers["Authorization"] = `Bearer ${localStorage.getItem(
         "token"
       )}`;
-      axios
-        .delete(`${baseUrl}/categories/${payload.category.category_id}`)
-        .then((res) => {
-          commit("DELETE_CATEGORY_ITEM", payload);
-        });
+      if (payload.category.category_id) {
+        axios.delete(`${baseUrl}/categories/${payload.category.category_id}`);
+      }
     },
     addSkillItem({ commit }, payload) {
       console.log(payload, "addSkill");
@@ -197,14 +203,12 @@ export default {
       });
     },
     deleteSkillItem({ commit }, payload) {
+      console.log(payload, "deleteSkill");
+      commit("DELETE_SKILL_ITEM", payload);
       axios.defaults.headers["Authorization"] = `Bearer ${localStorage.getItem(
         "token"
       )}`;
-      axios
-        .delete(`${baseUrl}/categories/${payload.category.category_id}`)
-        .then((res) => {
-          commit("DELETE_SKILL_ITEM", payload);
-        });
+      axios.delete(`${baseUrl}/skills/${payload.id}`);
     },
     editSkillItem({ commit }, payload) {
       const newSkill = {
@@ -212,12 +216,11 @@ export default {
         percent: payload.percent,
         category: payload.category.category_id,
       };
+      commit("EDIT_SKILL_ITEM", payload);
       axios.defaults.headers["Authorization"] = `Bearer ${localStorage.getItem(
         "token"
       )}`;
-      axios.post(`${baseUrl}/skills/${payload.id}`, newSkill).then((res) => {
-        commit("EDIT_SKILL_ITEM", payload);
-      });
+      axios.post(`${baseUrl}/skills/${payload.id}`, newSkill);
     },
   },
 };
