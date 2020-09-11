@@ -18,8 +18,10 @@ export default {
   },
   methods: {
     handleExit() {
-      const token = localStorage.getItem("token");
-      this.$axios.post(`${this.$baseUrl}/logout`, token);
+      this.$axios.defaults.headers[
+        "Authorization"
+      ] = `Bearer ${localStorage.getItem("token")}`;
+      this.$axios.post(`${this.$baseUrl}/logout`);
       localStorage.removeItem("token");
       this.$router.replace("/login");
     },

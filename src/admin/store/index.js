@@ -3,6 +3,7 @@ import Vuex from "vuex";
 import about from "./about";
 import review from "./review";
 import work from "./work";
+import axios from "axios"
 
 Vue.use(Vuex);
 

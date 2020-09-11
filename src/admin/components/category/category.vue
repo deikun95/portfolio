@@ -1,12 +1,21 @@
 <template>
   <card class="card-component" slim>
-    <editLine
+    <!-- <editLine
       slot="title"
       class="header-line"
       v-model="categoryTitle"
       :editModeByDefault="empty"
       @approve="approveCategory"
       @remove="$emit('remove', id)"
+      @edit-card="editCard"
+    />-->
+    <editLine
+      slot="title"
+      class="header-line"
+      v-model="categoryTitle"
+      :editModeByDefault="empty"
+      @approve="approveCategory"
+      @remove="deleteCategory"
       @edit-card="editCard"
     />
     <template slot="content">
@@ -44,6 +53,7 @@ export default {
     skillAddLine,
   },
   props: {
+    card: Object,
     id: Number,
     token: String,
     empty: Boolean,
@@ -58,32 +68,41 @@ export default {
   },
   data() {
     return {
+      currentToken: this.token,
       isEdit: this.empty,
       categoryTitle: this.title,
-      currentToken: this.token,
       userId: null,
       categoryId: null,
+      isEdited: null,
     };
   },
   methods: {
-    ...mapActions("about", ["refreshCategoryTitle", "editSkillItem"]),
+    ...mapActions("about", [
+      "refreshCategoryTitle",
+      "editSkillItem",
+      "addNewCategory",
+      "editCategoryItem",
+      "deleteCategoryItem",
+    ]),
     editCard() {
       this.isEdit = !this.isEdit;
+      // this.isEdited = true
       this.$emit("edit-card");
       console.log("dassd");
     },
     approveCategory($event) {
       this.isEdit = !this.isEdit;
 
-      this.$axios.defaults.headers[
-        "Authorization"
-      ] = `Bearer ${this.currentToken}`;
-      this.$axios
-        .post(`${this.$baseUrl}/categories`, { title: $event })
-        .then((res) => {
-          this.userId = res.data.user_id;
-          this.categoryId = res.data.id;
-        });
+      if (this.isEdited) {
+        this.editCategoryItem({ categoryTitle: $event, ...this.card });
+      } else {
+        this.addNewCategory({ title: $event, cardId: this.card.cardId });
+      }
+      this.isEdited = true;
+    },
+    deleteCategory() {
+      console.log("delete")
+      this.deleteCategoryItem(this.card);
     },
     editSkill($event) {
       this.editSkillItem($event);
@@ -94,9 +113,7 @@ export default {
       this.refreshCategoryTitle({ val, id: this.id });
     },
   },
-  created() {
-    this.skills;
-  },
+  created() {},
 };
 </script>
 

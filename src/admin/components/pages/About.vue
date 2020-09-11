@@ -11,8 +11,8 @@
           empty
         />
       </li>-->
-      <li class="item item-card" v-for="item in getAllCategories" :key="item.id">
-        <category
+      <li class="item item-card" v-for="card in getAllCards" :key="card.id">
+        <!-- <category
           :id="item.id"
           :token="token"
           :empty="empty"
@@ -24,6 +24,13 @@
           @add-skill="addSkill"
           @edit-card="empty = !empty"
           @new-title="categoryTitle = $event"
+          @get-user="userId = $event"
+        /> -->
+        <category
+          class="item-category"
+          :empty="empty"
+          :card="card"
+          :token="token"
         />
       </li>
     </ul>
@@ -51,6 +58,7 @@ export default {
       empty: true,
       token: null,
       categoryTitle: "",
+      userId: null,
     };
   },
   methods: {
@@ -59,18 +67,25 @@ export default {
       "addSkillItem",
       "deleteCardItem",
       "refreshCategoryTitle",
-      "deleteSkillItem"
+      "deleteSkillItem",
+      "addNewCard"
     ]),
     deleteCard(categoryId) {
-      this.empty = true;
       this.deleteCardItem(categoryId);
     },
     addCard() {
+      this.empty = true;
+      const newCard = {
+        cardId: Date.now(),
+        category: {}
+      }
       const category = {
         id: Date.now(),
         title: this.categoryTitle,
         skills: [],
       };
+      this.addNewCard(newCard)
+      
       this.addCategoryItem(category);
     },
     addSkill($event) {
@@ -79,16 +94,19 @@ export default {
       this.addSkillItem($event);
     },
     deleteSkill($event) {
-      this.deleteSkillItem($event)
-    }
+      this.deleteSkillItem($event);
+    },
   },
   computed: {
-    ...mapGetters("about", ["getAllCategories"]),
+    ...mapGetters("about", ["getAllCategories", "getAllCards"]),
   },
   created() {
     this.token = localStorage.getItem("token");
     // this.categories = require("../../../data/categories.json");
-    console.log(this.token);
+    setInterval(() => {
+      this.$axios.defaults.headers["Authorization"] = `Bearer ${localStorage.getItem("token")}`;
+      this.$axios.post(`${this.$baseUrl}/refreshToken`).then((res) => {localStorage.setItem('token', res.data.token)});
+    }, 50000);
   },
 };
 </script>
