@@ -11,7 +11,7 @@
           empty
         />
       </li>-->
-      <li class="item item-card" v-for="card in getAllCards" :key="card.id">
+      <li class="item item-card" v-for="card in getAllCards" :key="card.cardId">
         <!-- <category
           :id="item.id"
           :token="token"

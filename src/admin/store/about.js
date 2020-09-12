@@ -179,6 +179,7 @@ export default {
       });
     },
     deleteCategoryItem({ commit }, payload) {
+      console.log(payload)
       commit("DELETE_CATEGORY_ITEM", payload);
 
       axios.defaults.headers["Authorization"] = `Bearer ${localStorage.getItem(
