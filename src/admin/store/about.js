@@ -18,7 +18,7 @@ export default {
   },
   mutations: {
     ADD_CATEGORY_ITEM: (state, payload) => {
-      state.categories.unshift(payload);
+      state.categories.push(payload);
     },
     ADD_SKILL_ITEM: (state, payload) => {
       const newSkill = {
@@ -68,7 +68,7 @@ export default {
     // СОЗДАНИЕ КАРТОЧЕК ПОСРЕДСТВОМ ВЗАИМОДЕЙСТВИЯ С API
 
     ADD_NEW_CARD: (state, payload) => {
-      state.cards.unshift(payload);
+      state.cards.push(payload);
     },
     ADD_NEW_CATEGORY: (state, payload) => {
       state.cards.map((card) => {
