@@ -49,13 +49,17 @@ export default {
   },
   props: {
     card: Object,
-    id: Number,
-    token: String,
-    empty: Boolean,
     title: {
       type: String,
       default: "",
     },
+    id: Number,
+    token: String,
+    empty: Boolean,
+    // title: {
+    //   type: String,
+    //   default: "",
+    // },
     skills: {
       type: Array,
       default: () => [],

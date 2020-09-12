@@ -57,7 +57,7 @@ export default {
     },
     onApprove() {
       if (this.value !== "") {
-        if (this.title.trim() === this.value.trim()) {
+        if (this.value.trim()) {
           this.editMode = false;
         } else {
           this.editMode = false;

@@ -1,4 +1,5 @@
 import axios from "axios";
+import lodash from "lodash"
 
 const baseUrl = "https://webdev-api.loftschool.com";
 
@@ -121,7 +122,11 @@ export default {
       });
     },
     SET_ALL_CATEGORIES: (state, payload) => {
-      state.cards = payload
+      const newArr = payload.map(item => {
+        item.cardId = item.id
+        return item
+      }).filter(item => !_.isEmpty(item.skills))
+      state.cards = newArr
     }
   },
   actions: {
@@ -182,14 +187,14 @@ export default {
       });
     },
     deleteCategoryItem({ commit }, payload) {
-      console.log(payload);
+      console.log(payload, "delete");
       commit("DELETE_CATEGORY_ITEM", payload);
 
       axios.defaults.headers["Authorization"] = `Bearer ${localStorage.getItem(
         "token"
       )}`;
-      if (payload.category.category_id) {
-        axios.delete(`${baseUrl}/categories/${payload.category.category_id}`);
+      if (payload.id) {
+        axios.delete(`${baseUrl}/categories/${payload.id}`);
       }
     },
     addSkillItem({ commit }, payload) {
