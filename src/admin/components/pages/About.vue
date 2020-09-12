@@ -68,7 +68,9 @@ export default {
       "deleteCardItem",
       "refreshCategoryTitle",
       "deleteSkillItem",
-      "addNewCard"
+      "addNewCard",
+      "getUserId",
+      "fetchAllCategories"
     ]),
     deleteCard(categoryId) {
       this.deleteCardItem(categoryId);
@@ -104,6 +106,8 @@ export default {
   created() {
     this.token = localStorage.getItem("token");
     // this.categories = require("../../../data/categories.json");
+    this.getUserId()
+    // this.fetchAllCategories()
     setInterval(() => {
       this.$axios.defaults.headers["Authorization"] = `Bearer ${localStorage.getItem("token")}`;
       this.$axios.post(`${this.$baseUrl}/refreshToken`).then((res) => {localStorage.setItem('token', res.data.token)});

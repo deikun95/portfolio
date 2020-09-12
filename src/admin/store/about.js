@@ -120,6 +120,9 @@ export default {
         return card;
       });
     },
+    SET_ALL_CATEGORIES: (state, payload) => {
+      state.cards = payload
+    }
   },
   actions: {
     addCategoryItem({ commit }, payload) {
@@ -179,7 +182,7 @@ export default {
       });
     },
     deleteCategoryItem({ commit }, payload) {
-      console.log(payload)
+      console.log(payload);
       commit("DELETE_CATEGORY_ITEM", payload);
 
       axios.defaults.headers["Authorization"] = `Bearer ${localStorage.getItem(
@@ -223,5 +226,20 @@ export default {
       )}`;
       axios.post(`${baseUrl}/skills/${payload.id}`, newSkill);
     },
+    getUserId() {
+      axios.defaults.headers["Authorization"] = `Bearer ${localStorage.getItem(
+        "token"
+      )}`;
+      axios.get(`${baseUrl}/user`).then((res) => {
+        const userId = res.data.user.id
+        localStorage.setItem("userId", userId)
+      });
+    },
+    fetchAllCategories({commit}) {
+      const userId = localStorage.getItem("userId")
+      axios.get(`${baseUrl}/categories/${userId}`).then((res) => {
+        commit("SET_ALL_CATEGORIES", res.data)
+      });
+    }
   },
 };

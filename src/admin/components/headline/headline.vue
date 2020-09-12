@@ -24,6 +24,7 @@ export default {
       this.$axios.post(`${this.$baseUrl}/logout`);
       localStorage.removeItem("token");
       this.$router.replace("/login");
+      localStorage.removeItem("userId");
     },
   },
 };
