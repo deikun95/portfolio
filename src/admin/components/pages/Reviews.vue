@@ -4,10 +4,10 @@
       <div class="title">Блок "Отзывы"</div>
     </div>
     <div class="form-component" v-if="formActive">
-      <ReviewValidationForm @save-form="saveForm" :card-data="cardData"/>
+      <ReviewValidationForm :isEdited="isEdited" @save-form="saveForm" :card-data="cardData" />
     </div>
     <div class="cards-component">
-      <ReviewCard @add-form="addForm" @edit-card="editCard"/>
+      <ReviewCard @add-form="addForm" @edit-card="editCard" />
     </div>
   </div>
 </template>
@@ -16,11 +16,14 @@
 import lodash from "lodash";
 import ReviewCard from "../ReviewCard/ReviewCard";
 import ReviewValidationForm from "../ReviewValidationForm/ReviewValidationForm";
+import { mapActions, mapGetter } from "vuex";
 
 export default {
   data() {
     return {
       formActive: false,
+      isEdited: false,
+
       cardData: {},
     };
   },
@@ -29,17 +32,36 @@ export default {
     ReviewValidationForm,
   },
   methods: {
+    ...mapActions("work", ["fetchAllReviews"]),
+
     addForm() {
       this.formActive = true;
     },
     saveForm($event) {
       this.formActive = false;
+      this.isEdited = false;
       this.cardData = {};
     },
     editCard($event) {
       this.formActive = true;
+      this.isEdited = true;
       this.cardData = $event;
     },
+  },
+  created() {
+    this.token = localStorage.getItem("token");
+    // this.categories = require("../../../data/categories.json");
+    this.empty = false;
+    // this.getUserId();
+    setInterval(() => {
+      this.$axios.defaults.headers[
+        "Authorization"
+      ] = `Bearer ${localStorage.getItem("token")}`;
+      this.$axios.post(`${this.$baseUrl}/refreshToken`).then((res) => {
+        localStorage.setItem("token", res.data.token);
+      });
+    }, 50000);
+    this.fetchAllReviews();
   },
 };
 </script>

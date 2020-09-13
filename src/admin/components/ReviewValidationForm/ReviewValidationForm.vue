@@ -4,22 +4,22 @@
       <div slot="content" class="review-form">
         <div class="form__upload">
           <div class="form__upload-img">
-            <avatar size="15" src="src\images\content\user-upload.png" />
+            <avatar size="15" :src="`${getPhoto}`" />
           </div>
-          <appButton typeAttr="file" plain title="Добавить фото" />
+          <appButton typeAttr="file" plain title="Добавить фото" @change="handleChange" />
         </div>
         <div class="form__main">
           <div class="form__title form__row">
-            <app-input v-model="formData.title" title="Имя автора" />
-            <div class="message">{{ validation.firstError('formData.title') }}</div>
+            <app-input v-model="formData.author" title="Имя автора" />
+            <div class="message">{{ validation.firstError('formData.author') }}</div>
           </div>
           <div class="form__link form__row">
-            <app-input v-model="formData.pos" title="Титуал автора" />
-            <div class="message">{{ validation.firstError('formData.pos') }}</div>
+            <app-input v-model="formData.occ" title="Титуал автора" />
+            <div class="message">{{ validation.firstError('formData.occ') }}</div>
           </div>
           <div class="form__description form__row">
-            <app-input v-model="formData.description" title="Отзыв" fieldType="textarea" />
-            <div class="message">{{ validation.firstError('formData.description') }}</div>
+            <app-input v-model="formData.text" title="Отзыв" fieldType="textarea" />
+            <div class="message">{{ validation.firstError('formData.text') }}</div>
           </div>
           <div class="form__buttons">
             <appButton plain title="Отправить" />
@@ -49,6 +49,7 @@ export default {
     avatar,
   },
   props: {
+    isEdited: Boolean,
     cardData: {
       type: Object,
       default: () => ({}),
@@ -56,49 +57,60 @@ export default {
   },
   mixins: [SimpleVueValidator.mixin],
   validators: {
-    "formData.title": function (value) {
+    "formData.author": function (value) {
       return Validator.value(value).required("Поле должно быть заполнено!");
     },
-    "formData.pos": function (value) {
+    "formData.occ": function (value) {
       return Validator.value(value).required("Поле должно быть заполнено!");
     },
-    "formData.description": function (value) {
+    "formData.text": function (value) {
       return Validator.value(value).required("Поле должно быть заполнено!");
     },
   },
   data() {
     return {
       formData: {
-        title: "",
-        pos: "",
-        description: "",
+        author: "",
+        occ: "",
+        text: "",
+        preview: "",
       },
     };
   },
   methods: {
-    ...mapActions("review", ["addReviewCard"]),
+    ...mapActions("review", [
+      "addReviewCard",
+      "addNewReview",
+      "editReviewItem",
+    ]),
     saveForm() {
       this.$validate().then((success) => {
         if (success) {
-          if (!this.cardData.id) {
-            const newCard = {
-              ...this.formData,
-              id: Date.now(),
-            };
-            console.log(1);
-            this.addReviewCard(newCard);
-          } else {
-            const newCard = {
-              ...this.formData,
-              id: this.cardData.id,
-            };
+          const newCard = {
+            ...this.formData,
+          };
+          this.addNewReview({ ...newCard, isEdited: this.isEdited });
 
-            this.addReviewCard(newCard);
-          }
           this.$emit("save-form");
           alert("Отзыв успешно сохранен!");
         }
       });
+    },
+    handleChange(event) {
+      this.isUpload = true;
+      const file = event.target.files[0];
+      this.formData.photo = file;
+
+      this.renderPhoto(file);
+    },
+    renderPhoto(file) {
+      const reader = new FileReader();
+
+      reader.readAsDataURL(file);
+
+      reader.onloadend = () => {
+        this.formData.preview = reader.result;
+      };
     },
   },
   computed: {
@@ -109,7 +121,19 @@ export default {
       }
       return "Редактирование отзыва";
     },
+    getPhoto() {
+      if (!this.isEdited && this.formData.preview === "") {
+        const imagePath = "src/images/content/userupload.png"
+        return imagePath;
+      } else if (this.isUpload) {
+        return this.formData.preview;
+      } else if (this.isEdited) {
+        const photoUrl = `${this.$baseUrl}/${this.cardData.photo}`;
+        return photoUrl;
+      }
+    },
   },
+
   mounted() {
     if (!_.isEmpty(this.cardData)) {
       this.formData = this.cardData;

@@ -6,17 +6,17 @@
     <card class="card" v-for="card in getReviewCards" :key="card.id">
       <div slot="title" class="card__header">
         <div class="avatar">
-          <avatar size="3.4" src="src\images\content\user.jpg" />
+          <avatar size="3.4" :src="`${$baseUrl}/${card.photo}`" />
         </div>
         <div class="user">
-          <span class="user-name">{{card.title}}</span>
-          <span class="user-pos">{{card.pos}}</span>
+          <span class="user-name">{{card.author}}</span>
+          <span class="user-pos">{{card.occ}}</span>
         </div>
       </div>
       <div class="card__body" slot="content">
         <div class="card__description">
           <div class="card__main">
-            <p>{{card.description}}</p>
+            <p>{{card.text}}</p>
           </div>
           <div class="card__buttons">
             <icon symbol="pencil" class="btn" title="Править" @click="editCard(card)" />
