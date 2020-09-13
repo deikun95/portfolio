@@ -2,9 +2,11 @@
   <div class="form-content">
     <card :title="titleValue">
       <div slot="content" class="work-form">
-        <div class="form__upload">
-          <div class="form__upload-text">Перетащите или загрузите для загрузки изображения</div>
-          <appButton typeAttr="file" title="Загрузить" />
+        <div class="form__upload" :style="{backgroundImage: `url(${getPhoto})`}">
+          <div class="form__upload-handle-upload">
+            <!-- <div class="form__upload-text">Загрузите изображение</div> -->
+            <appButton typeAttr="file" title="Загрузить фото" @change="handleChange" />
+          </div>
         </div>
         <div class="form__main">
           <div class="form__title form__row">
@@ -20,8 +22,8 @@
             <div class="message">{{ validation.firstError('formData.description') }}</div>
           </div>
           <div class="form__tags form__row">
-            <tagsAdder v-model="formData.tags" :tags="formData.tags" />
-            <div class="message">{{ validation.firstError('formData.tags') }}</div>
+            <tagsAdder v-model="formData.techs" :techs="formData.techs" />
+            <div class="message">{{ validation.firstError('formData.techs') }}</div>
           </div>
           <div class="form__buttons">
             <appButton plain title="Отправить" />
@@ -51,6 +53,7 @@ export default {
     appButton,
   },
   props: {
+    isEdited: Boolean,
     cardData: {
       type: Object,
       default: () => ({}),
@@ -67,7 +70,7 @@ export default {
     "formData.description": function (value) {
       return Validator.value(value).required("Поле должно быть заполнено!");
     },
-    "formData.tags": function (value) {
+    "formData.techs": function (value) {
       return Validator.value(value).required("Поле должно быть заполнено!");
     },
   },
@@ -77,36 +80,44 @@ export default {
         title: "",
         link: "",
         description: "",
-        tags: "",
+        techs: "",
+        preview: "",
       },
     };
   },
   methods: {
-    ...mapActions("work", ["addWorkCard"]),
+    ...mapActions("work", ["addWorkCard", "addNewWork", "editWorkItem"]),
     saveForm() {
-      const tags = this.formData.tags.trim().split(",");
+      const techs = this.formData.techs.trim().split(",");
       this.$validate().then((success) => {
         if (success) {
-          if (!this.cardData.id) {
-            const newCard = {
-              ...this.formData,
-              tags,
-              id: Date.now(),
-            };
-            this.addWorkCard(newCard);
-          } else {
-            const newCard = {
-              ...this.formData,
-              tags,
-              id: this.cardData.id,
-            };
+          const newCard = {
+            ...this.formData,
+            techs,
+            // id: Date.now(),
+          };
+          this.addNewWork({ ...newCard, isEdited: this.isEdited });
+          // this.addWorkCard(newCard);
 
-            this.addWorkCard(newCard);
-          }
           this.$emit("save-form");
           alert("Работа успешно сохранена!");
         }
       });
+    },
+    handleChange(event) {
+      const file = event.target.files[0];
+      this.formData.photo = file;
+
+      this.renderPhoto(file);
+    },
+    renderPhoto(file) {
+      const reader = new FileReader();
+
+      reader.readAsDataURL(file);
+
+      reader.onloadend = () => {
+        this.formData.preview = reader.result;
+      };
     },
   },
   computed: {
@@ -116,6 +127,14 @@ export default {
         return "Создание работы";
       }
       return "Редактирование работы";
+    },
+    getPhoto() {
+      if (!this.isEdited) {
+        return this.formData.preview;
+      } else {
+        const photoUrl = `${this.$baseUrl}/${this.cardData.photo}`;
+        return photoUrl;
+      }
     },
   },
   mounted() {
@@ -149,7 +168,14 @@ export default {
     justify-content: center;
     align-items: center;
     flex-direction: column;
+    background-position: center;
+    background-size: contain;
+    background-repeat: no-repeat;
+    &-handle-upload {
+      text-align: center;
+    }
     &-text {
+      background-color: #fff;
       width: 222px;
       text-align: center;
       font-weight: 600;
@@ -173,6 +199,13 @@ export default {
     justify-content: flex-end;
     margin-bottom: 10px;
   }
+}
+.upload-preview {
+  width: 100%;
+  height: 100%;
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
 }
 .message {
   margin-top: 5px;

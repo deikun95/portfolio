@@ -5,9 +5,9 @@
     </div>
     <div class="card" v-for="card in getWorkCards" :key="card.id">
       <div class="card__header">
-        <div class="card__img"></div>
+        <div class="card__img" :style="{backgroundImage: `url(${$baseUrl}/${card.photo})`}"></div>
         <div class="card__tags">
-          <tag :title="tag" v-for="tag in card.tags" :key="tag.id" />
+          <tag :title="tag" v-for="tag in card.techs" :key="tag.id" />
         </div>
       </div>
       <div class="card__body">
@@ -52,12 +52,10 @@ export default {
       this.$emit("add-form");
     },
     editCard(card) {
-      const tags = card.tags.join(", ");
       const editingCard = {
         ...card,
-        tags,
       };
-      this.$emit("edit-card", editingCard)
+      this.$emit("edit-card", editingCard);
     },
   },
   computed: {

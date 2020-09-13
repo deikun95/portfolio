@@ -4,7 +4,7 @@
       <div class="title">Блок "Работы"</div>
     </div>
     <div class="form-component" v-if="formActive">
-      <WorkValidationForm @save-form="saveForm" :card-data="cardData" />
+      <WorkValidationForm :isEdited="isEdited" @save-form="saveForm" :card-data="cardData" />
     </div>
     <div class="cards-component">
       <WorkCard @add-form="addForm" @edit-card="editCard" />
@@ -16,11 +16,13 @@
 import lodash from "lodash";
 import WorkCard from "../WorkCard/WorkCard";
 import WorkValidationForm from "../WorkValidationForm/WorkValidationForm";
+import { mapActions, mapGetter } from "vuex";
 
 export default {
   data() {
     return {
       formActive: false,
+      isEdited: false,
       cardData: {},
     };
   },
@@ -29,17 +31,35 @@ export default {
     WorkValidationForm,
   },
   methods: {
+    ...mapActions("work", ["fetchAllWorks"]),
     addForm() {
       this.formActive = true;
     },
     saveForm($event) {
       this.formActive = false;
+      this.isEdited = false;
       this.cardData = {};
     },
     editCard($event) {
       this.formActive = true;
+      this.isEdited = true;
       this.cardData = $event;
     },
+  },
+  created() {
+    this.token = localStorage.getItem("token");
+    // this.categories = require("../../../data/categories.json");
+    this.empty = false;
+    // this.getUserId();
+    setInterval(() => {
+      this.$axios.defaults.headers[
+        "Authorization"
+      ] = `Bearer ${localStorage.getItem("token")}`;
+      this.$axios.post(`${this.$baseUrl}/refreshToken`).then((res) => {
+        localStorage.setItem("token", res.data.token);
+      });
+    }, 50000);
+    this.fetchAllWorks();
   },
 };
 </script>
