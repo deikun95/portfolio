@@ -22,7 +22,7 @@ export default {
     //   state.categories.push(payload);
     // },
     ADD_SKILL_ITEM: (state, payload) => {
-      console.log(payload, "ADD_SKILL_ITEM")
+      console.log(payload, "ADD_SKILL_ITEM");
       const newSkill = {
         title: payload.title,
         percent: payload.percent,
@@ -227,7 +227,7 @@ export default {
       axios.delete(`${baseUrl}/skills/${payload.id}`);
     },
     editSkillItem({ commit }, payload) {
-      console.log(payload, "editSkillItem")
+      console.log(payload, "editSkillItem");
       const newSkill = {
         title: payload.title,
         percent: payload.percent,
@@ -239,13 +239,14 @@ export default {
       )}`;
       axios.post(`${baseUrl}/skills/${payload.skillId}`, newSkill);
     },
-    getUserId() {
+    getUserId({ dispatch }) {
       axios.defaults.headers["Authorization"] = `Bearer ${localStorage.getItem(
         "token"
       )}`;
       axios.get(`${baseUrl}/user`).then((res) => {
         const userId = res.data.user.id;
         localStorage.setItem("userId", userId);
+        dispatch("fetchAllCategories");
       });
     },
     fetchAllCategories({ commit }) {

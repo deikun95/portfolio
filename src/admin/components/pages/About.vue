@@ -25,7 +25,7 @@
           @edit-card="empty = !empty"
           @new-title="categoryTitle = $event"
           @get-user="userId = $event"
-        /> -->
+        />-->
         <category
           class="item-category"
           :empty="empty"
@@ -71,7 +71,7 @@ export default {
       "deleteSkillItem",
       "addNewCard",
       "getUserId",
-      "fetchAllCategories"
+      "fetchAllCategories",
     ]),
     deleteCard(categoryId) {
       this.deleteCardItem(categoryId);
@@ -80,15 +80,15 @@ export default {
       this.empty = true;
       const newCard = {
         cardId: Date.now(),
-        skills: []
-      }
+        skills: [],
+      };
       // const category = {
       //   id: Date.now(),
       //   title: this.categoryTitle,
       //   skills: [],
       // };
-      this.addNewCard(newCard)
-      
+      this.addNewCard(newCard);
+
       // this.addCategoryItem(category);
     },
     addSkill($event) {
@@ -106,17 +106,17 @@ export default {
   created() {
     this.token = localStorage.getItem("token");
     // this.categories = require("../../../data/categories.json");
-    this.empty = false
-    this.getUserId()
-    // this.fetchAllCategories()
+    this.empty = false;
+    this.getUserId();
     setInterval(() => {
-      this.$axios.defaults.headers["Authorization"] = `Bearer ${localStorage.getItem("token")}`;
-      this.$axios.post(`${this.$baseUrl}/refreshToken`).then((res) => {localStorage.setItem('token', res.data.token)});
+      this.$axios.defaults.headers[
+        "Authorization"
+      ] = `Bearer ${localStorage.getItem("token")}`;
+      this.$axios.post(`${this.$baseUrl}/refreshToken`).then((res) => {
+        localStorage.setItem("token", res.data.token);
+      });
     }, 50000);
   },
-  mounted(){
-    this.fetchAllCategories()
-  }
 };
 </script>
 
