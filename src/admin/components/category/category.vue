@@ -16,6 +16,7 @@
       :editModeByDefault="empty"
       @approve="approveCategory"
       @remove="deleteCategory"
+      @change-edit="handleEdit"
       @edit-card="editCard"
     />
     <template slot="content">
@@ -87,14 +88,20 @@ export default {
     ]),
     editCard() {
       this.isEdit = !this.isEdit;
+      this.isEdited = true;
       this.$emit("edit-card");
+    },
+    handleEdit() {
+      this.isEdit = !this.isEdit;
     },
     approveCategory($event) {
       this.isEdit = !this.isEdit;
 
       if (this.isEdited) {
-        this.editCategoryItem({ categoryTitle: $event, ...this.card });
+        console.log("edit");
+        this.editCategoryItem({ title: $event, ...this.card });
       } else {
+        console.log("create");
         this.addNewCategory({ title: $event, cardId: this.card.cardId });
       }
       this.isEdited = true;

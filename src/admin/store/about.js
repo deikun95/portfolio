@@ -1,5 +1,5 @@
 import axios from "axios";
-import lodash from "lodash"
+import lodash from "lodash";
 
 const baseUrl = "https://webdev-api.loftschool.com";
 
@@ -18,17 +18,18 @@ export default {
     },
   },
   mutations: {
-    ADD_CATEGORY_ITEM: (state, payload) => {
-      state.categories.push(payload);
-    },
+    // ADD_CATEGORY_ITEM: (state, payload) => {
+    //   state.categories.push(payload);
+    // },
     ADD_SKILL_ITEM: (state, payload) => {
+      console.log(payload, "ADD_SKILL_ITEM")
       const newSkill = {
         title: payload.title,
         percent: payload.percent,
         id: payload.id,
       };
       state.cards = state.cards.map((card) => {
-        if (card.category.category_id === payload.category) {
+        if (card.cardId === payload.category || card.id === payload.category) {
           card.skills.push(newSkill);
         }
         return card;
@@ -72,12 +73,11 @@ export default {
       state.cards.push(payload);
     },
     ADD_NEW_CATEGORY: (state, payload) => {
+      console.log(payload, "ADD_NEW_CATEGORY");
       state.cards.map((card) => {
         if (card.cardId === payload.cardId) {
-          card.category = {
-            category: payload.category,
-            category_id: payload.id,
-          };
+          card.category = payload.category;
+          card.id = payload.id;
         }
         return card;
       });
@@ -85,17 +85,18 @@ export default {
     EDIT_CATEGORY_ITEM: (state, payload) => {
       state.cards.map((card) => {
         if (card.cardId === payload.cardId) {
-          card.category.category = payload.categoryTitle;
+          card.category = payload.title;
           return card;
         }
         return card;
       });
     },
     EDIT_SKILL_ITEM: (state, payload) => {
+      console.log(payload, "EDIT_SKILL_ITEM");
       state.cards.map((card) => {
         if (card.cardId === payload.cardId) {
           card.skills.map((skill) => {
-            if (skill.id === payload.id) {
+            if (skill.id === payload.skillId) {
               skill.title = payload.title;
               skill.percent = payload.percent;
             }
@@ -122,12 +123,15 @@ export default {
       });
     },
     SET_ALL_CATEGORIES: (state, payload) => {
-      const newArr = payload.map(item => {
-        item.cardId = item.id
-        return item
-      }).filter(item => !_.isEmpty(item.skills))
-      state.cards = newArr
-    }
+      console.log(payload, "new");
+      const newArr = payload
+        .map((item) => {
+          item.cardId = item.id;
+          return item;
+        })
+        .filter((item) => !_.isEmpty(item.skills));
+      state.cards = newArr;
+    },
   },
   actions: {
     addCategoryItem({ commit }, payload) {
@@ -165,9 +169,11 @@ export default {
     // СОЗДАНИЕ КАРТОЧЕК ПОСРЕДСТВОМ ВЗАИМОДЕЙСТВИЯ С API
 
     addNewCard({ commit }, payload) {
+      console.log(payload, "addNewCard");
       commit("ADD_NEW_CARD", payload);
     },
     addNewCategory({ commit }, payload) {
+      console.log(payload);
       axios.defaults.headers["Authorization"] = `Bearer ${localStorage.getItem(
         "token"
       )}`;
@@ -178,12 +184,13 @@ export default {
         });
     },
     editCategoryItem({ commit }, payload) {
+      console.log(payload, "edit");
       commit("EDIT_CATEGORY_ITEM", payload);
       axios.defaults.headers["Authorization"] = `Bearer ${localStorage.getItem(
         "token"
       )}`;
-      axios.post(`${baseUrl}/categories/${payload.category.category_id}`, {
-        title: payload.categoryTitle,
+      axios.post(`${baseUrl}/categories/${payload.id}`, {
+        title: payload.title,
       });
     },
     deleteCategoryItem({ commit }, payload) {
@@ -202,7 +209,7 @@ export default {
       const newSkill = {
         title: payload.title,
         percent: payload.percent,
-        category: payload.category.category_id,
+        category: payload.id,
       };
       axios.defaults.headers["Authorization"] = `Bearer ${localStorage.getItem(
         "token"
@@ -220,31 +227,33 @@ export default {
       axios.delete(`${baseUrl}/skills/${payload.id}`);
     },
     editSkillItem({ commit }, payload) {
+      console.log(payload, "editSkillItem")
       const newSkill = {
         title: payload.title,
         percent: payload.percent,
-        category: payload.category.category_id,
+        category: payload.id,
       };
       commit("EDIT_SKILL_ITEM", payload);
       axios.defaults.headers["Authorization"] = `Bearer ${localStorage.getItem(
         "token"
       )}`;
-      axios.post(`${baseUrl}/skills/${payload.id}`, newSkill);
+      axios.post(`${baseUrl}/skills/${payload.skillId}`, newSkill);
     },
     getUserId() {
       axios.defaults.headers["Authorization"] = `Bearer ${localStorage.getItem(
         "token"
       )}`;
       axios.get(`${baseUrl}/user`).then((res) => {
-        const userId = res.data.user.id
-        localStorage.setItem("userId", userId)
+        const userId = res.data.user.id;
+        localStorage.setItem("userId", userId);
       });
     },
-    fetchAllCategories({commit}) {
-      const userId = localStorage.getItem("userId")
+    fetchAllCategories({ commit }) {
+      const userId = localStorage.getItem("userId");
       axios.get(`${baseUrl}/categories/${userId}`).then((res) => {
-        commit("SET_ALL_CATEGORIES", res.data)
+        console.log(res.data);
+        commit("SET_ALL_CATEGORIES", res.data);
       });
-    }
+    },
   },
 };

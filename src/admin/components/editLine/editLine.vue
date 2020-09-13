@@ -57,9 +57,11 @@ export default {
     },
     onApprove() {
       if (this.value !== "") {
-        if (this.value.trim()) {
+        if (this.title.trim() === this.value.trim()) {
           this.editMode = false;
+          this.$emit("change-edit")
         } else {
+          console.log(this.value, "value")
           this.editMode = false;
           this.$emit("approve", this.value);
         }

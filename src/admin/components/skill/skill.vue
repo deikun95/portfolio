@@ -15,7 +15,7 @@
       <app-input v-model="currentSkill.percent" type="number" min="0" max="3" maxlength="3" />
     </div>
     <div class="buttons">
-      <icon symbol="tick" class="btn" @click="editSkill" />
+      <icon symbol="tick" class="btn" @click="editSkill(skill.id)" />
       <icon symbol="cross" class="btn" @click="editmode = false" />
     </div>
   </div>
@@ -29,7 +29,11 @@ export default {
   props: {
     skill: {
       type: Object,
-      default: () => ({}),
+      default: () => ({
+        title: "",
+        percent: "",
+        id: null,
+      }),
       requied: true,
     },
   },
@@ -37,8 +41,8 @@ export default {
     return {
       editmode: false,
       currentSkill: {
-        title: "",
-        percent: "",
+        title: this.skill.title,
+        percent: this.skill.percent,
       },
     };
   },
@@ -48,13 +52,14 @@ export default {
     icon,
   },
   methods: {
-    editSkill() {
+    editSkill($event) {
+      console.log($event, "skill id")
       this.editmode = false;
-      this.$emit("approve", { ...this.currentSkill });
+      this.$emit("approve", { ...this.currentSkill, skillId: this.skill.id  });
     },
   },
   created() {
-    this.currentSkill = { ...this.skill };
+    // this.currentSkill = { ...this.skill };
   },
 };
 </script>

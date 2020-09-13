@@ -80,17 +80,16 @@ export default {
       this.empty = true;
       const newCard = {
         cardId: Date.now(),
-        category: "",
         skills: []
       }
-      const category = {
-        id: Date.now(),
-        title: this.categoryTitle,
-        skills: [],
-      };
+      // const category = {
+      //   id: Date.now(),
+      //   title: this.categoryTitle,
+      //   skills: [],
+      // };
       this.addNewCard(newCard)
       
-      this.addCategoryItem(category);
+      // this.addCategoryItem(category);
     },
     addSkill($event) {
       console.log($event);
@@ -109,12 +108,15 @@ export default {
     // this.categories = require("../../../data/categories.json");
     this.empty = false
     this.getUserId()
-    this.fetchAllCategories()
+    // this.fetchAllCategories()
     setInterval(() => {
       this.$axios.defaults.headers["Authorization"] = `Bearer ${localStorage.getItem("token")}`;
       this.$axios.post(`${this.$baseUrl}/refreshToken`).then((res) => {localStorage.setItem('token', res.data.token)});
     }, 50000);
   },
+  mounted(){
+    this.fetchAllCategories()
+  }
 };
 </script>
 
