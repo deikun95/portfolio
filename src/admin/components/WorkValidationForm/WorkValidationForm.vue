@@ -76,6 +76,7 @@ export default {
   },
   data() {
     return {
+      isUpload: false,
       formData: {
         title: "",
         link: "",
@@ -105,6 +106,7 @@ export default {
       });
     },
     handleChange(event) {
+      this.isUpload = true;
       const file = event.target.files[0];
       this.formData.photo = file;
 
@@ -131,7 +133,9 @@ export default {
     getPhoto() {
       if (!this.isEdited) {
         return this.formData.preview;
-      } else {
+      } else if (this.isUpload) {
+        return this.formData.preview;
+      } else if (this.isEdited) {
         const photoUrl = `${this.$baseUrl}/${this.cardData.photo}`;
         return photoUrl;
       }
