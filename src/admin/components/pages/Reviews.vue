@@ -32,7 +32,7 @@ export default {
     ReviewValidationForm,
   },
   methods: {
-    ...mapActions("work", ["fetchAllReviews"]),
+    ...mapActions("review", ["fetchAllReviews"]),
 
     addForm() {
       this.formActive = true;
