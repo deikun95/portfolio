@@ -87,6 +87,7 @@ export default {
     font-size: 18px;
   }
   &__main {
+    height: 145px;
     line-height: 30px;
     color: rgba(65, 76, 99, 0.5);
     font-weight: 600;
